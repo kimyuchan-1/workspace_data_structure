@@ -14,7 +14,7 @@ package chap2_기본자료구조;
  */
 public class train_실습2_7소수나열 {
     // 0 이상 n 이하의 소수 개수를 반환하는 함수
-    static int primeCount(int n, int []data) {
+    private static int primeCount(int n, int []data) {
         if (n < 2) return 0; // 0과 1은 소수가 아님
         int count = 0;
         int j = 0;
@@ -28,7 +28,7 @@ public class train_실습2_7소수나열 {
     }
 
     // 소수 판별 함수
-    static boolean isPrime(int num) {
+    private static boolean isPrime(int num) {
         if (num < 2) return false;
         for (int i = 2; i * i <= num; i++) {
             if (num % i == 0) return false;
