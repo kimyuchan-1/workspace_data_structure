@@ -9,6 +9,14 @@ package chap2_기본자료구조;
 import java.util.Arrays;
 import java.util.Random;
 public class train_실습2_6다차원배열 {
+	
+	private static void inputData(int[][] mat) {
+		if (mat == null) {
+			return;
+		}
+		
+		
+	}
 
 	public static void main(String[] args) {
 		int [][]A = new int[2][3];

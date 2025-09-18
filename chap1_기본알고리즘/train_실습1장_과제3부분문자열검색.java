@@ -12,11 +12,22 @@ public class train_실습1장_과제3부분문자열검색 {
 	
 	public static void searchSubstring(String text, String pattern) {
 		int cnt = 0;
-		for (int i = 0; i < text.length()-pattern.length();i++) {
+		int k = 0;
+		for (int i = 0; i < text.length()-pattern.length()+1;i++) {
 			for (int j = 0; j < pattern.length();j++) {
 				if (text.charAt(i+j)==pattern.charAt(j)) {
-					
-				} else cnt = 0;
+					cnt++;
+					if (cnt == pattern.length()) {
+						System.out.println("["+(i)+","+(i+cnt)+"]");
+						k++;
+					}
+				} else {
+					cnt = 0;
+					break;
+				}
+			}
+			if (k==1) {
+				break;
 			}
 		}
 	}
@@ -26,6 +37,7 @@ public class train_실습1장_과제3부분문자열검색 {
         String pattern = "ababd";
 
         searchSubstring(text, pattern);
+        
         text = "abxabcabcabyabcaby";
         pattern = "abcaby";
         searchSubstring(text, pattern);

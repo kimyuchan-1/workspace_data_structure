@@ -10,7 +10,11 @@ package chap1_기본알고리즘;
 */
 public class train_실습1장_과제1palin문자열 {
 
-	public static boolean isPalindrome(String s) {
+	private static boolean isPalindrome(String s) { // method의 시그니처
+		// 조기 탈출 (Early stopping/exit)
+		if (s == null) {
+			return false;
+		}
 		boolean result;
 		String reverse = "";
 		
@@ -21,9 +25,19 @@ public class train_실습1장_과제1palin문자열 {
 		
 		if (s.equals(reverse)) {
 			result = true;
-		} else result = false;
+		} else {
+			result = false;
+		}
 		
 		return result;
+		/*
+		int len = s.length();
+		for (int i = 0; i < len / 2; i++) {
+			if (s.charAt(i) != s.charAt(len - i - 1) ) {
+				return false;
+			}
+		}
+		*/
 	}
 	
     public static void main(String[] args) {

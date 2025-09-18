@@ -14,30 +14,44 @@ package chap1_기본알고리즘;
 public class train_실습1장_과제2문자열압축 {
 	
 	public static String compress(String s) {
+		// 조기 종료
+		if (s == null || s.isEmpty()) {
+			return s;
+		}
+		
 		StringBuilder sb = new StringBuilder("");
 		String result = "";
 		int cnt = 0;
-		int j = 1;
-		for (int i = 0; i < s.length(); i= i+j) {
-			while (s.charAt(j) != s.charAt(++j)) {
+		for (int i = 0; i < s.length(); i++) {
+			if (i == 0) {
+				sb.append(s.charAt(i));
 				cnt++;
+			} else if (i > 0 && i < s.length()-1) {
+				if (s.charAt(i) == s.charAt(i-1)) {
+					cnt++;
+				} else {
+					sb.append(cnt);
+					sb.append(s.charAt(i));
+					cnt = 1;
+				}
+			} else {
+				if (s.charAt(i) == s.charAt(i-1)) {
+					sb.append(++cnt);
+				} else {
+					sb.append(cnt);
+					sb.append(s.charAt(i));
+					sb.append(1);
+				}
+				
 			}
-			sb.append(sb.charAt(i));
-			sb.append(cnt+1);
 			
-			
-		}
+		}	
 		result = sb.toString();
-		if (s.length() < sb.length()) {
-			result = s;
-		}
-		
-		
 		return result;
 	}
 	
     public static void main(String[] args) {
-        String input = "aabcccccaaa";
+        String input = "aabcccccbbb";
         System.out.println("압축 결과: " + compress(input));
     }
 }
