@@ -9,17 +9,19 @@ public class train_실습1_6_스트링토큰_과제 {
  * parseDouble(stringArray[i])
  */
 	public static String[] extractSortStrings(String msg) {
-		/*
+		
 		String[] strA = msg.split(" ");
 		Arrays.sort(strA);
 		return strA;
-		*/
+		
+		/*
 		StringTokenizer st = new StringTokenizer(msg, " ");
 		String[] strA = new String[st.countTokens()];
 		for (int i = 0; i < strA.length; i++) {
 			strA[i] = st.nextToken();
 		}
 		return strA;
+		*/
 	}
 	
 	public static double[] convertSortToDouble(String[] strA) {

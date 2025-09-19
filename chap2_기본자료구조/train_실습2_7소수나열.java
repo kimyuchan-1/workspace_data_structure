@@ -1,5 +1,4 @@
 package chap2_기본자료구조;
-//소수, 최대공약수, 최소공배수 코딩 이해 필요 
 
 /*
  * 어떤 정수를 나누어 떨어지게 만드는 수를 약수(divisor)
@@ -13,9 +12,13 @@ package chap2_기본자료구조;
  * 2는 약수가 두 개(1과 자기 자신)뿐이므로 소수이며, 유일한 짝수 소수
  */
 public class train_실습2_7소수나열 {
+
     // 0 이상 n 이하의 소수 개수를 반환하는 함수
     private static int primeCount(int n, int []data) {
-        if (n < 2) return 0; // 0과 1은 소수가 아님
+        if (n < 2 || data == null) {
+        	return 0; // 0과 1은 소수가 아님
+        }
+        
         int count = 0;
         int j = 0;
         for (int i = 2; i <= n; i++) { // 2부터 n까지 검사
@@ -28,8 +31,15 @@ public class train_실습2_7소수나열 {
     }
 
     // 소수 판별 함수
+    /*
+     * 48의 약수는 1, 2, 3, 4, 6, 8, 12, 16, 24, 48
+     * i * i <= 48 조건을 만족하려면 i는 6까지 실행하면 충분, 성능 계산 - time complexity O(n): n이 성능을 좌우
+     * i <= (48 % i)를 만족하는 것은 6까지이다 
+     */
     private static boolean isPrime(int num) {
-        if (num < 2) return false;
+        if (num < 2) {
+        	return false;
+        }
         for (int i = 2; i * i <= num; i++) {
             if (num % i == 0) return false;
         }
@@ -46,11 +56,14 @@ public class train_실습2_7소수나열 {
      * 56 % 42 = 14 → GCD(42, 14)
      * 42 % 14 = 0 → GCD(14, 0), 즉 최대 공약수는 14.
      */
-    public static int gcd(int a, int b) {
-        while (b != 0) {
-            int temp = b;
-            b = a % b;
-            a = temp;
+    private static int gcd(int a, int b) {
+    	if (a == 0 || b == 0) {
+    		return 0;
+    	}
+        while (b != 0) { // a = 56, b = 98/ a = 98, b = 56/ a = 56, b = 42/ a = 42, b = 14
+            int temp = b; // temp = 98/ temp = 56/ temp = 42/ temp = 14
+            b = a % b; // b = 56/ b = 42/ b = 14/ b = 0
+            a = temp; // a = 98/ a = 56/ a = 42/ a = 14
         }
         return a;
     }
@@ -59,10 +72,17 @@ public class train_실습2_7소수나열 {
      * GCD(최대 공약수)와의 관계
      * LCM(a, b) = (a × b) / GCD(a, b)
      */
-    public static int lcm(int a, int b) {
+    private static int lcm(int a, int b) {
+    	if (a == 0 || b == 0) {
+    		return 0;
+    	}
+    	
         return (a * b) / gcd(a, b); // LCM 공식: (a * b) / GCD(a, b)
     }
     public static void main(String[] args) {
+    	for (int i = 0; i < 15; i++) {
+    		System.out.println(i + " = " + (isPrime(i)?"소수":"소수가 아니다"));
+    	}
     	int[] primeArr = new int[100];
         for (int i = 0; i <= 10; i++) {
         	int num = primeCount(i, primeArr);

@@ -10,15 +10,21 @@ package chap2_기본자료구조;
  * StringBuilder: mutable - 문자열이 자주 변경시 사용, append, insert, delete, reverse 함수 사용
  * 
  */
+
+// decompose, 문제를 분리하고 쉬운 문제로 변환하여 해결
+// 기수 변환의 일반화는 ASCII 번호를 사용, 각 항목별 차이가 ASCII 코드에서도 1이기 때문
+// "A"의 ASCII = 65, "0"의 ASCII = 48
 public class train_실습2_12_1기수변환_일반화 {
 
     // n진수를 10진수로 변환하는 함수
-    public static int toDecimal(String number, int baseN) {
+    private static int toDecimal(String number, int baseN) {
     	/*
     	 * charAt()를 사용하여 N 진법(baseN) 스트링을 10진수 바꾼다
     	 * 0<= ch <= 9: num = ch - '0'
     	 * ch > 9 : num = ch - 'A' + 10 로 계산
     	 */
+    	
+    	
         int decimal = 0;
         int length = number.length();
         
@@ -41,7 +47,7 @@ public class train_실습2_12_1기수변환_일반화 {
     }
 
     // 10진수를 m진수로 변환하는 함수
-    public static String fromDecimal(int decimal, int baseM) {
+    private static String fromDecimal(int decimal, int baseM) {
     	/*
     	 * 10진수를 M 진법으로 바꾸려면 decimal % baseM은 나눈 나머지를 스트링으로 표현
     	 * decimal / baseM은 몫이므로 반복 실행
@@ -73,7 +79,7 @@ public class train_실습2_12_1기수변환_일반화 {
     }
 
     // n진수를 m진수로 변환하는 함수
-    public static String convertBase(String number, int baseN, int baseM) {
+    private static String convertBase(String number, int baseN, int baseM) {
         // n진수를 10진수로 변환
         int decimal = toDecimal(number, baseN);
         // 10진수를 m진수로 변환
