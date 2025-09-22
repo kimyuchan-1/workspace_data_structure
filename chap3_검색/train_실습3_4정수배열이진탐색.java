@@ -50,6 +50,14 @@ public class train_실습3_4정수배열이진탐색 {
 		return false;
 	}
 	
+	private static boolean binarySearch(int[] data, int key) {
+		if (data == null ) {
+			return false;
+		}
+		
+		return false;
+	}
+	
 	
 
 	public static void main(String[] args) {
@@ -77,8 +85,8 @@ public class train_실습3_4정수배열이진탐색 {
 		/*
 		 * 교재 115 Arrays.binarySearch에 의한 검색
 		 */
-		resultIndex = Arrays.binarySearch(data, key);
-		System.out.println("\nArrays.binarySearch(10): result = " + resultIndex);
+		int resultIndex1 = Arrays.binarySearch(data, key);
+		System.out.println("\nArrays.binarySearch(10): result = " + resultIndex1);
 
 	}
 }

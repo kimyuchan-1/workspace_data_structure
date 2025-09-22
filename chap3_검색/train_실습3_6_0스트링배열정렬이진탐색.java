@@ -8,7 +8,34 @@ package chap3_검색;
 */
 import java.util.Arrays;
 public class train_실습3_6_0스트링배열정렬이진탐색 {
-
+	private static void showData(String msg, String[] data) {
+		
+	}
+	
+	private static void swap(String[] data, int i, int j) {
+		String temp = data[i];
+		data[i] = data[j];
+		data[j] = temp;
+	}
+	
+	private static void sortData(String[] data) {
+		for (int i = 0; i < data.length; i++) {
+			for (int j = i+1; j < data.length; j++) {
+				if (data[i].compareTo(data[j]) > 0) {
+					swap(data, i , j);
+				}
+			}
+		}
+	}
+	
+	private static int linearSearch(String[] data, String key) {
+		return -1;
+	}
+	
+	private static int binarySearch(String[] data, String key) {
+		return -1;
+	}
+	
 	public static void main(String[] args) {
 		String []data = {"사과","포도","복숭아", "감", "산딸기", "블루베리", "대추", "수박", "참외"};
 		showData("정렬전", data);
