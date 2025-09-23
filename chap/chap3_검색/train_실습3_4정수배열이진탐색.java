@@ -47,6 +47,12 @@ public class train_실습3_4정수배열이진탐색 {
 			return false;
 		}
 		
+		for (int i = 0; i < data.length; i++) {
+			if (data[i] == key) {
+				return true;
+			}
+		}
+		
 		return false;
 	}
 	
@@ -54,6 +60,11 @@ public class train_실습3_4정수배열이진탐색 {
 		if (data == null ) {
 			return false;
 		}
+		
+		int head = 0;
+		int tail = data.length-1;
+		
+		for (int i = 0; )
 		
 		return false;
 	}

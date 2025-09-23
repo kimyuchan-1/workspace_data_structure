@@ -60,12 +60,16 @@ public class train_실습4_4_스택응용_괄호매칭검사 {
 
 	public static void main(String[] args) {
 
-		String[] cases1 = { "(12{as[33<1q2w3e>90]kkk}4r)fg", "<111{ddd[4r(1q2w3e)44]77}jj>kk",
-				"zz{w(a+b)*[c/d]-<q-e>1+2}w*t", "dd[a+b+c(y*u[abstract]go{234}2w3e)444]ttt",
+		String[] cases1 = { "(12{as[33<1q2w3e>90]kkk}4r)fg", 
+				"<111{ddd[4r(1q2w3e)44]77}jj>kk",
+				"zz{w(a+b)*[c/d]-<q-e>1+2}w*t", 
+				"dd[a+b+c(y*u[abstract]go{234}2w3e)444]ttt",
 				"a+b<c-d<e%r{123{waste[go[stop(a+b+c(?)$)@]!]*}12}33>c-d>drop" };
 
-		String[] cases2 = { "a-b-c{1234[3.14(hello)kkk]1>d-w", "a*b*c(121<good[days)gostop>q-w]t-1",
-				"123{hello[a-w-e(w/e/r]\n)\t}qq", "q*t&w{12-34[a+b]*(c/d]-e}123",
+		String[] cases2 = { "a-b-c{1234[3.14(hello)kkk]1>d-w", 
+				"a*b*c(121<good[days)gostop>q-w]t-1",
+				"123{hello[a-w-e(w/e/r]\n)\t}qq", 
+				"q*t&w{12-34[a+b]*(c/d]-e}123",
 				"12<a/b/c/d{q-t-t[a=c(78::]23;)'8}sss>x+y+w", };
 
 		System.out.println("예제1:");
