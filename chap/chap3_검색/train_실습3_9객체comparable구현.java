@@ -1,8 +1,6 @@
 package chap3_검색;
 
-public class train_실습3_9객체comparable구현 {
-
-}
+import java.util.Arrays;
 
 /*
  * 문제 : Comparable 구현 
@@ -69,4 +67,89 @@ S004, 준호, Chemistry
 찾은 학생: S004, 준호, Chemistry
 
  */
+
+class Student implements Comparable<Student>{
+	private String sid;
+	private String sname;
+	private String dept;
+	
+	public Student(String sid, String sname, String dept) {
+		this.sid = sid;
+		this.sname = sname;
+		this.dept = dept;
+	}
+	
+	public String getSID() {
+		return this.sid;
+	}
+	
+	public String getSname() {
+		return this.sname;
+	}
+	
+	public String getDept() {
+		return this.dept;
+	}
+	@Override
+	public int compareTo(Student s) {
+		return this.sid.compareTo(s.getSID());
+	}
+	@Override
+	public String toString() {
+		return this.sid+", "+this.sname+", "+this.dept;
+	}
+}
+
+public class train_실습3_9객체comparable구현 {
+	
+	private static void show(Student[] data) {
+		if (data == null || data.length == 0) {
+			return;
+		}
+		for (Student s : data) {
+			System.out.println(s.toString());
+		}
+		System.out.println();
+		
+	}
+	
+	public static void main(String[] args) {
+		
+		Student[] students = {
+			    new Student("S001", "영희", "Math"),
+			    new Student("S003", "민수", "Computer"),
+			    new Student("S002", "철수", "Physics"),
+			    new Student("S005", "지영", "Biology"),
+			    new Student("S004", "준호", "Chemistry")
+			};
+		
+		Student[] targets = {
+			    new Student("S002", "철수", "Physics"),
+			    new Student("S006", "홍길동", "Law"),
+			    new Student("S004", "준호", "Chemistry")
+			};
+		
+		
+		System.out.println("=== 정렬 전 학생 목록 ===");
+		show(students);
+		Arrays.sort(students);
+		System.out.println("=== 정렬 후 학생 목록 ===");
+		show(students);
+		
+		System.out.println("=== 이진 탐색 결과 ===");
+		for (int i = 0; i < targets.length; i++) {
+			if (Arrays.binarySearch(students, targets[i]) < 0) {
+				System.out.println("학번 "+targets[i].getSID()+"인 학생은 존재하지 않습니다.");
+			} else {
+				System.out.println("찾은 학생: "+targets[i].toString());
+			}
+		}
+				
+		
+		
+	}
+	
+}
+
+
 	

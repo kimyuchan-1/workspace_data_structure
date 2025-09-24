@@ -1,25 +1,54 @@
 package chap3_검색;
 
-import java.util.*;
-import java.io.*;
+import java.util.Random;
+import java.util.Scanner;
 
 class Term {
     int coef; // 계수
     int exp;  // 지수
-    Term(int c, int e) { this.coef = c; this.exp = e; }
+    
+    public Term(int c, int e) { 
+    	this.coef = c; 
+    	this.exp = e; 
+    }
 }
 
 class Polynomial {
-	static []Term terms;
+	static Term[] terms;
 	static int capacity;
 	static int free;
 	int start;
 	int finish;
+	
+	public Polynomial() {
+		Term[] terms = new Term[capacity];
+		start = finish = 0;
+	}
+	
+	public Polynomial add(Polynomial p) {
+		
+	}
+	
+	public Polynomial subtract(Polynomial p) {
+		
+	}
+	
+	public Polynomial multiply(Polynomial p) {
+		
+	}
+	
+	public int eval(int i) {
+		
+	}
 
     @Override
     public String toString() {
-        if (terms.isEmpty()) return "0\n";
+        if (terms.isEmpty()) {
+        	return "0\n";
+        }
+        	
         StringBuilder sb = new StringBuilder();
+        
         for (int i = 0; i < terms.size(); i++) {
             Term t = terms.get(i);
             sb.append(t.coef).append("x^").append(t.exp);
@@ -28,8 +57,10 @@ class Polynomial {
         sb.append('\n');
         return sb.toString();
     }
-
-
+    
+    public void addTerm(int c, int e) {
+    	
+    }
 
     public void newTerm(int c, int e) {
         addTerm(c, e);
@@ -54,6 +85,7 @@ class Polynomial {
             if (expo == 0) break;
         }
     }
+
 
 
 }

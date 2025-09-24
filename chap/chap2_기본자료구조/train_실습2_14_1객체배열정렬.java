@@ -40,12 +40,12 @@ class PhyscData2 implements Comparable<PhyscData2>{
 		if (this.name.compareTo(p.getName()) < 0) {
 			result = -1;
 		} else if (this.name.compareTo(p.getName()) == 0) {
-			if (this.height < p.getHeight()) {
+			if (((Integer)(this.height)).compareTo(p.getHeight()) < 0) {
 				result = -1;
-			} else if (this.height == p.getHeight()) {
-				if (this.vision < p.getVision()) {
+			} else if (((Integer)(this.height)).compareTo(p.getHeight()) == 0) {
+				if (((Double)(this.vision)).compareTo(p.getVision()) < 0) {
 					result = -1;
-				} else if (this.vision == p.getVision()) {
+				} else if (((Double)(this.vision)).compareTo(p.getVision()) == 0) {
 					result = 0;
 				} else {
 					result = 1;
@@ -105,18 +105,19 @@ public class train_실습2_14_1객체배열정렬 {
 			return -1;
 		}
 		
-		int idx = 0;
-		for (int i = 0; i < data.length; i++) {
-			if (data[i].getName().equalsIgnoreCase(str)) {
-				idx = i;
-				break;
+		int head = 0;
+		int tail = data.length-1;
+		while (head <= tail) {
+			int mid = (head + tail) /2;
+			if (data[mid].getName().compareTo(str) == 0) {
+				return mid;
+			} else if (data[mid].getName().compareTo(str) < 0){
+				head = mid + 1;
 			} else {
-				idx = -1;
+				tail = mid - 1;
 			}
 		}
-		
-		return idx;
-		
+		return -1;
 	}
 	
 	private static PhyscData2[] insertObject(PhyscData2[] data, PhyscData2 p) {

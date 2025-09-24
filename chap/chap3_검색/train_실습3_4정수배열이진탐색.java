@@ -24,7 +24,7 @@ public class train_실습3_4정수배열이진탐색 {
 	}
 	
 	private static void showList(String msg, int[] data) {
-		if (msg == null || msg.isEmpty() || data == null) {
+		if (msg == null || msg.isEmpty() || data == null || data.length == 0) {
 			return;
 		}
 		
@@ -43,7 +43,7 @@ public class train_실습3_4정수배열이진탐색 {
 	}
 	
 	private static boolean linearSearch(int[] data, int key) {
-		if (data == null ) {
+		if (data == null || data.length == 0) {
 			return false;
 		}
 		
@@ -57,14 +57,23 @@ public class train_실습3_4정수배열이진탐색 {
 	}
 	
 	private static boolean binarySearch(int[] data, int key) {
-		if (data == null ) {
+		if (data == null || data.length == 0) {
 			return false;
 		}
 		
 		int head = 0;
 		int tail = data.length-1;
 		
-		for (int i = 0; )
+		while (head <= tail) {
+			int mid = (head + tail) / 2;
+			if (data[mid] == key) {
+				return true;
+			} else if (data[mid] < key) {
+				head = mid + 1;
+			} else {
+				tail = mid - 1;
+			}
+		}
 		
 		return false;
 	}

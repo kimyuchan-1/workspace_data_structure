@@ -12,22 +12,85 @@ class PhyscData3 {
 	String name;
 	int height;
 	double vision;
+	
+	public PhyscData3(String name, int height, double vision) {
+		this.name = name;
+		this.height = height;
+		this.vision = vision;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public int getHeight() {
+		return this.height;
+	}
+	
+	public double getVision() {
+		return this.vision;
+	}
 
 }
-class NameHeightVision implements Comparator<PhyscData4>{
-
+class NameHeightVision implements Comparator<PhyscData3>{
+	@Override
+	public int compare(PhyscData3 p1, PhyscData3 p2) {
+		if (p1.getName().compareTo(p2.getName()) < 0) {
+			return -1;
+		} else if (p1.getName().compareTo(p2.getName()) == 0) {
+			if (((Integer)(p1.getHeight())).compareTo(p2.getHeight()) < 0) {
+				return -1;
+			} else if (((Integer)(p1.getHeight())).compareTo(p2.getHeight()) == 0) {
+				if (((Double)(p1.getVision())).compareTo(p2.getVision()) < 0) {
+					return -1;
+				} else if (((Double)(p1.getVision())).compareTo(p2.getVision()) == 0) {
+					return 0;
+				} else {
+					return 1;
+				}
+			} else {
+				return 1;
+			}
+		} else {
+			return 1;
+		}
+	}
 }
 class NameOrder implements Comparator<PhyscData3>{
+	@Override
+	public int compare(PhyscData3 p1, PhyscData3 p2) {
+		return p1.getName().compareTo(p2.getName());
+	}
 
 }
 class HeightOrder implements Comparator<PhyscData3>{
+	@Override
+	public int compare(PhyscData3 p1, PhyscData3 p2) {
+		return ((Integer)(p1.getHeight())).compareTo(p2.getHeight());
+	}
 
 }
 class VisionOrder implements Comparator<PhyscData3>{
+	@Override
+	public int compare(PhyscData3 p1, PhyscData3 p2) {
+		return ((Double)(p1.getVision())).compareTo(p2.getVision());
+	}
 
 }
 public class train실습3_8객체비교연산자들정의 {	
 	static final Comparator<PhyscData3> HEIGHT_ORDER = new HeightOrder();
+	
+	private static void showData(String msg, PhyscData3[] data) {
+		if (msg == null || msg.isEmpty() || data.length == 0 || data == null) {
+			return;
+		}
+		System.out.println(msg);
+		for (int i = 0; i < data.length; i++) {
+			System.out.println("이름 : "+data[i].getName()+", 키 : "+data[i].getHeight()+", 시력 : "+data[i].getVision());
+		}
+		System.out.println();
+		
+	}
 
 	public static void main(String[] args) {
 		PhyscData3[] data = {

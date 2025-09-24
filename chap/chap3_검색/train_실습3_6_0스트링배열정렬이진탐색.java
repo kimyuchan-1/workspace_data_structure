@@ -9,10 +9,29 @@ package chap3_검색;
 import java.util.Arrays;
 public class train_실습3_6_0스트링배열정렬이진탐색 {
 	private static void showData(String msg, String[] data) {
+		if (msg == null || msg.isEmpty() || data == null || data.length == 0) {
+			return;
+		}
 		
+		System.out.print(msg);
+		for (String s : data) {
+			if (s == data[0]) {
+				System.out.print("["+s+", ");
+			} else if (s == data[data.length-1]) {
+				System.out.println(s+"]");
+				break;
+			} else {
+				System.out.print(s+", ");
+			}
+			
+		}
 	}
 	
 	private static void swap(String[] data, int i, int j) {
+		if (data == null || i == j || data.length == 0) {
+			return;
+		}
+		
 		String temp = data[i];
 		data[i] = data[j];
 		data[j] = temp;
@@ -29,10 +48,37 @@ public class train_실습3_6_0스트링배열정렬이진탐색 {
 	}
 	
 	private static int linearSearch(String[] data, String key) {
+		if (data == null || key == null || key.isEmpty() || data.length == 0) {
+			return -1;
+		}
+		
+		for (int i = 0; i < data.length; i++) {
+			if (data[i].equalsIgnoreCase(key)) {
+				return i;
+			}
+		}
 		return -1;
 	}
 	
 	private static int binarySearch(String[] data, String key) {
+		if (data == null || key == null || key.isEmpty() || data.length == 0) {
+			return -1;
+		}
+		
+		int head = 0;
+		int tail = data.length-1;
+		
+		while (head <= tail) {
+			int mid = (head + tail) / 2;
+			if (data[mid].compareToIgnoreCase(key) == 0) {
+				return mid;
+			} else if (data[mid].compareToIgnoreCase(key) < 0) {
+				head = mid + 1;
+			} else {
+				tail = mid - 1;
+			}
+		}
+		
 		return -1;
 	}
 	
