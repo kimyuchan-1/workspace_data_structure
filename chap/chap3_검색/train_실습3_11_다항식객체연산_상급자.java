@@ -20,12 +20,32 @@ class Polynomial {
 	int start;
 	int finish;
 	
+	private static boolean isEmpty() {
+		return (free == 0);
+	}
+	
+	private static int size() {
+		return free;
+	}
+	
+	private static Term get(int i) {
+		return terms[i];
+	}
+	
+	private static void clear() {
+		for (int i = 0; i < terms.length; i++) {
+			terms[i] = null;
+		}
+	}
+	
 	public Polynomial() {
 		Term[] terms = new Term[capacity];
+		free = capacity;
 		start = finish = 0;
 	}
 	
 	public Polynomial add(Polynomial p) {
+		
 		
 	}
 	

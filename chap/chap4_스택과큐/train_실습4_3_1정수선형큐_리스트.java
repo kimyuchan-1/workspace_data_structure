@@ -20,6 +20,7 @@ class Queue4 {
 	private int rear; // 맨 끝 요소 커서
 
 //--- 실행시 예외: 큐가 비어있음 ---//
+	@SuppressWarnings("serial")
 	public class EmptyQueueException extends RuntimeException {
 		public EmptyQueueException(String msg) {
 			super(msg);
@@ -27,6 +28,7 @@ class Queue4 {
 	}
 
 //--- 실행시 예외: 큐가 가득 찼음 ---//
+	@SuppressWarnings("serial")
 	public class OverflowQueueException extends RuntimeException {
 		public OverflowQueueException(String msg) {
 			super(msg);
@@ -43,16 +45,44 @@ class Queue4 {
 //--- 큐에 데이터를 인큐 ---//
 	public int enque(int x) throws OverflowQueueException {
 		//que.add()
+		if (isFull()) {
+			throw new OverflowQueueException("enque : Queue Overflow");
+		} else {
+			que.add(x);
+			rear++;
+			return x;
+		}
 	}
 
 //--- 큐에서 데이터를 디큐 ---//
 	public int deque() throws EmptyQueueException {
 		//que.remove()
+		if (isEmpty()) {
+			throw new EmptyQueueException("deque : Queue is Empty");
+		} else {
+			int j = que.get(front);
+			que.remove(front);
+			List<Integer> temp = new ArrayList<Integer>(capacity);
+			for (int i = 0; i < rear; i++) {
+				temp.add(i, que.get(i+1));
+				System.out.println(temp.get(i));
+			}
+			que = temp;
+			rear--;
+			return j;
+		}
+		
 	}
 
 //--- 큐에서 데이터를 피크(프런트 데이터를 들여다봄) ---//
 	public int peek() throws EmptyQueueException {
 		//que.get()
+		if (isEmpty()) {
+			throw new EmptyQueueException("peek : Queue is Empty");
+		} else {
+			int i = que.get(front);
+			return i;
+		}
 	}
 
 //--- 큐를 비움 ---//
@@ -62,7 +92,19 @@ class Queue4 {
 
 //--- 큐에서 x를 검색하여 인덱스(찾지 못하면 –1)를 반환 ---//
 	public int indexOf(int x) {
-
+		int head = 0;
+		int tail = rear;
+		while (head <= tail) {
+			int mid = (head + tail) / 2;
+			if (que.get(mid).compareTo(x)==0) {
+				return mid;
+			} else if (que.get(mid).compareTo(x) < 0) {
+				head = mid + 1;
+			} else {
+				tail = mid - 1;
+			}
+		}
+		return -1;
 	}
 
 //--- 큐의 크기를 반환 ---//
@@ -72,26 +114,32 @@ class Queue4 {
 
 //--- 큐에 쌓여 있는 데이터 개수를 반환 ---//
 	public int size() {
-
+		return rear;
 	}
 
 //--- 큐가 비어있는가? ---//
 	public boolean isEmpty() {
-	
+		return ((Integer)rear).equals(0);
 	}
 
 //--- 큐가 가득 찼는가? ---//
 	public boolean isFull() {
-
+		return ((Integer)rear).compareTo(capacity) >= 0;
 	}
 
 //--- 큐 안의 모든 데이터를 프런트 → 리어 순으로 출력 ---//
 	public void dump() {
 		//que.get()
+		System.out.println("-".repeat(20));
+		for (int i = front; i < rear; i++) {
+			System.out.println(que.get(i));
+		}
+		System.out.println("-".repeat(20));
 	}
 }
 public class train_실습4_3_1정수선형큐_리스트 {
 	public static void main(String[] args) {
+		@SuppressWarnings("resource")
 		Scanner stdIn = new Scanner(System.in);
 		Queue4 oq = new Queue4(4); // 최대 64개를 인큐할 수 있는 큐
 		Random random = new Random();

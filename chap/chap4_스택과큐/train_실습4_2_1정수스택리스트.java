@@ -23,6 +23,7 @@ class IntStack4 {
 	private int top; // 스택 포인터
 
 //--- 실행시 예외: 스택이 비어있음 ---//
+	@SuppressWarnings("serial")
 	public class EmptyIntStackException extends RuntimeException {
 //추가
 		public EmptyIntStackException(String msg) {
@@ -40,6 +41,7 @@ public RuntimeException(String message) {
 }
 */
 //--- 실행시 예외: 스택이 가득 참 ---//
+	@SuppressWarnings("serial")
 	public class OverflowIntStackException extends RuntimeException {
 //추가
 		public OverflowIntStackException(String msg) {
@@ -55,7 +57,7 @@ public RuntimeException(String message) {
 		//추가
 			capacity = maxlen;
 			top = 0;
-			List<Integer> stk = new ArrayList<>(capacity);
+			stk = new ArrayList<>(capacity);
 		} catch (OutOfMemoryError e) { // 생성할 수 없음
 			capacity = 0;
 		}
@@ -104,8 +106,8 @@ public RuntimeException(String message) {
 		if (isEmpty()) {// 스택이 빔
 			throw new EmptyIntStackException("peek: stack empty");
 		} else {
-			for (int i = 0; i < top; i++) {
-				stk.remove(i);
+			while (top > 0) {
+				stk.remove(--top);
 			}
 		}
 //추가
@@ -114,26 +116,43 @@ public RuntimeException(String message) {
 //--- 스택에서 x를 찾아 인덱스(없으면 –1)를 반환 ---//
 	public int indexOf(int x) {
 //추가
+		int head = 0;
+		int tail = top;
+		while (head <= tail) {
+			int mid = (head + tail) / 2;
+			if (stk.get(mid).compareTo(x) == 0) {
+				return mid;
+			} else if (stk.get(mid).compareTo(x) < 0) {
+				head = mid + 1;
+			} else {
+				tail = mid + 1;
+			}
+		}
+		return -1;
 	}
 
 //--- 스택의 크기를 반환 ---//
 	public int getCapacity() {
 		//추가
+		return this.capacity;
 	}
 
 //--- 스택에 쌓여있는 데이터 갯수를 반환 ---//
 	public int size() {
 	//추가
+		return this.top;
 	}
 
 //--- 스택이 비어있는가? ---//
 	public boolean isEmpty() {
 		//추가
+		return ((Integer)(this.top)).equals(0);
 	}
 
 //--- 스택이 가득 찼는가? ---//
 	public boolean isFull() {
 		//추가
+		return ((Integer)(this.top)).equals(this.capacity);
 	}
 	
 //--- 스택 안의 모든 데이터를 바닥 → 정상 순서로 표시 ---//
@@ -144,6 +163,11 @@ public RuntimeException(String message) {
 		}
 		else {
 			//추가할 부분
+			System.out.println("- ".repeat(20));
+			for (int i = 0; i < top; i++) {
+				System.out.printf("%d\t\n",stk.get(i));
+			}
+			System.out.println("- ".repeat(20));
 		}
 	}
 }
@@ -167,8 +191,9 @@ public class train_실습4_2_1정수스택리스트 {
 			switch (menu) {
 
 			case 1: // 푸시
-				System.out.print("데이터: ");
 				x = rnd.nextInt(10);
+				System.out.print("데이터: "+x);
+				
 				try {
 					s.push(x);
 				} catch (IntStack4.OverflowIntStackException e) {

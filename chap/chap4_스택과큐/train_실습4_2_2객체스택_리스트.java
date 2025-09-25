@@ -15,7 +15,7 @@ import java.util.List;
 */
 import java.util.Random;
 import java.util.Scanner;
-class Point2 {
+class Point2 implements Comparable<Point2>{
 	private int ix;
 	private int iy;
 
@@ -26,16 +26,21 @@ class Point2 {
 
 	@Override
 	public String toString() {
-		return "ix = " + ix + "iy = " + iy;
+		return "ix = " + ix + ", "+ "iy = " + iy;
 	}
 
 	@Override
 	public boolean equals(Object p) {
 		return this.equals(p);
 	}
+	
+	@Override
+	public int compareTo(Point2 p) {
+		return this.compareTo(p);
+	}
 }
 
-class objectStack{
+class objectStack {
 	/*
 	 * 정수스택 버젼을 참조하여 예외처리 완성
 	 * --- 실행시 예외: 스택이 비어있음 ---
@@ -43,6 +48,7 @@ class objectStack{
 	 */
 	//--- 실행시 예외: 스택이 비어있음 ---//
 	// generic class는 Throwable을 상속받을 수 없다 - 지원하지 않는다
+	@SuppressWarnings("serial")
 	public class EmptyGenericStackException extends Exception {
 //추가
 		public EmptyGenericStackException(String msg) {
@@ -51,6 +57,7 @@ class objectStack{
 	}
 
 	//--- 실행시 예외: 스택이 가득 참 ---//
+	@SuppressWarnings("serial")
 	public class OverflowGenericStackException extends RuntimeException {
 //추가
 		public OverflowGenericStackException(String msg) {
@@ -65,32 +72,71 @@ class objectStack{
 //--- 생성자(constructor) ---//
 	public objectStack(int capacity) {
 		//구현
+		this.capacity = capacity;
+		data = new ArrayList<Point2>(capacity);
+		top = 0;
+		
 	}
 
 //--- 스택에 x를 푸시 ---//
 	public boolean push(Point2 x) throws OverflowGenericStackException {
 		//구현
+		if (isFull()) {
+			throw new OverflowGenericStackException("push : Stack Overflow");
+		} else {
+			data.add(x);
+			top++;
+			return true;
+		}
+		
 
 	}
 
 //--- 스택에서 데이터를 팝(정상에 있는 데이터를 꺼냄) ---//
 	public Point2 pop() throws EmptyGenericStackException  {
 		//구현
+		if (isEmpty()) {
+			throw new EmptyGenericStackException("pop : Stack is Empty");
+		} else {
+			Point2 p = data.get(top-1);
+			data.remove(--top);
+			return p;
+		}
 	}
 
 //--- 스택에서 데이터를 피크(peek, 정상에 있는 데이터를 들여다봄) ---//
 	public Point2 peek() throws EmptyGenericStackException  {
 		//구현
+		if (isEmpty()) {
+			throw new EmptyGenericStackException("peek : Stack is Empty");
+		} else {
+			return data.get(top-1);
+		}
 	}
 
 //--- 스택을 비움 ---//
 	public void clear() {
-		top = 0;
+		while (top > 0) {
+			data.remove(--top);
+		}
 	}
 
 //--- 스택에서 x를 찾아 인덱스(없으면 –1)를 반환 ---//
 	public int indexOf(Point2 x) {
 		//구현
+		int head = 0;
+		int tail = top;
+		while (head <= tail) {
+			int mid = (head + tail) / 2;
+			if (data.get(mid).compareTo(x)==0) {
+				return mid;
+			} else if (data.get(mid).compareTo(x) < 0) {
+				head = mid + 1;
+			} else {
+				tail = mid - 1;
+			}	
+		}
+		return -1;
 	}
 
 //--- 스택의 크기를 반환 ---//
@@ -116,11 +162,19 @@ class objectStack{
 //--- 스택 안의 모든 데이터를 바닥 → 꼭대기 순서로 출력 ---//
 	public void dump() {
 		//구현
+		System.out.println("-".repeat(20));
+		for (int i = 0; i < top; i++) {
+			System.out.println(data.get(i).toString());
+		}
+		System.out.println("-".repeat(20));
 	}
+
+	
 }
 public class train_실습4_2_2객체스택_리스트 {
 
 	public static void main(String[] args) {
+		@SuppressWarnings("resource")
 		Scanner stdIn = new Scanner(System.in);
 		objectStack s = new objectStack(8); // 최대 8 개를 push할 수 있는 stack
 		Random random = new Random();
@@ -137,10 +191,11 @@ public class train_실습4_2_2객체스택_리스트 {
 
 			switch (menu) {
 			case 1: // 푸시
-				System.out.print("데이터: ");
+				
 				rndx = random.nextInt(20);
 				rndy = random.nextInt(20);
 				p = new Point2(rndx,rndy);
+				System.out.print("데이터: "+p);
 				try {
 					s.push(p);
 				} catch(objectStack.OverflowGenericStackException e) {

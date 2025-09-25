@@ -5,6 +5,7 @@ package chap2_기본자료구조;
  * 5번 실습 - 2장 실습 2-10를 수정하여 객체 배열의 정렬 구현
  */
 import java.util.Arrays;
+import java.util.Comparator;
 
 //5번 실습 - 2장 실습 2-14를 수정하여 객체 배열의 정렬 구현
 class PhyscData2 implements Comparable<PhyscData2>{
@@ -64,13 +65,16 @@ class PhyscData2 implements Comparable<PhyscData2>{
 }
 public class train_실습2_14_1객체배열정렬 {
 	
+	// 비안정 정렬: 원본 데이터가 손상됨
+	// 거품, 삽입, 선택 정렬 => O(n^2) 최악의 경우: 오름차순 -> 내림차순
 	private static void sortData(PhyscData2[] data) {
 		if (data.length == 0) {
 			return;
 		}
-		for (int i = 0; i < data.length; i++) {
-			for (int j = i; j < data.length; j++) {
-				if (data[i].compareTo(data[j]) > 0) {
+		
+		for (int i = 0; i < data.length-1; i++) { // 선행자
+			for (int j = 0; j < data.length-1-i; j++) { // 후행자
+				if (data[j].compareTo(data[j+1]) > 0) {
 					swap(data,i,j);
 				}
 			}
@@ -94,10 +98,12 @@ public class train_실습2_14_1객체배열정렬 {
 			return;
 		}
 		System.out.println(msg);
+		System.out.println("- ".repeat(30));
 		for (int i = 0; i < data.length; i++) {
-			System.out.println("이름 : "+data[i].getName()+", 키 : "+data[i].getHeight()+", 시력 : "+data[i].getVision());
+			//System.out.println("이름 : "+data[i].getName()+", 키 : "+data[i].getHeight()+", 시력 : "+data[i].getVision());
+			System.out.printf("%-6s\t%d\t%.6f\n", data[i].getName(), data[i].getHeight(), data[i].getVision());
 		}
-		System.out.println();
+		System.out.println("- ".repeat(30));
 	}
 	
 	private static int binarySearch(PhyscData2[] data, String str) {
@@ -107,6 +113,7 @@ public class train_실습2_14_1객체배열정렬 {
 		
 		int head = 0;
 		int tail = data.length-1;
+		
 		while (head <= tail) {
 			int mid = (head + tail) /2;
 			if (data[mid].getName().compareTo(str) == 0) {
@@ -166,9 +173,27 @@ public class train_실습2_14_1객체배열정렬 {
 		sortData(data);
 		showData("정렬후", data);
 		
-		Arrays.sort(data);//compareTo()가 필요하다 
-		showData("Arrays.sort() 실행후", data);
+		// 익명 클래스
+		Comparator<PhyscData2> HeightComparator = new Comparator<PhyscData2>() {
+			@Override
+			public int compare(PhyscData2 p1, PhyscData2 p2) {
+				return Integer.compare(p1.getHeight(),p2.getHeight());
+			}
+		};
 		
+		// 람다식 사용
+		Comparator<PhyscData2> VisionComparator = (a, b) -> Double.compare(a.getVision(), b.getVision());
+		
+		Arrays.sort(data,HeightComparator);//compareTo()가 필요하다 
+		showData("Arrays.sort(키) 실행후", data);
+		
+		Arrays.sort(data,VisionComparator);//compareTo()가 필요하다 
+		showData("Arrays.sort(시력) 실행후", data);
+		
+		Arrays.sort(data, (a, b) -> a.getName().compareTo(b.getName()));
+		showData("이름 정렬", data);
+		
+		// 이진 검색은 정렬이 필수적
 		int resultIndex = binarySearch(data, "이길동");
 		if (resultIndex >= 0)
 			System.out.println("이길동이 존재하면 인덱스 = "+resultIndex);
