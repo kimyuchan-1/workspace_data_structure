@@ -1,4 +1,4 @@
-package Chap6_Sorting;
+package chap6_Sorting;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -22,11 +22,12 @@ class 실습6_9QuickSort {
      System.out.printf("%d}\n", a[right]);
 
      do {
-         while (a[pl] < x) {pl++;count++;}
-         while (a[pr] > x) {pr--;count++;}
-         if (pl <= pr)
+         while (a[pl] < x) {pl++;}//count++;}
+         while (a[pr] > x) {pr--;}//count++;}
+         if (pl <= pr) {
              swap(a, pl++, pr--);
-         count++;
+             count++;
+         }
      } while (pl <= pr);
     // System.out.println("pl = " + pl + ", pr = " + pr);
      if (left < pr)  quickSort(a, left, pr);
@@ -38,7 +39,8 @@ class 실습6_9QuickSort {
          System.out.print(d[i] + " ");
  }
  public static void main(String[] args) {
-     Scanner stdIn = new Scanner(System.in);
+     @SuppressWarnings("resource")
+	 Scanner stdIn = new Scanner(System.in);
 
      System.out.println("배열을 나눕니다.");
      System.out.print("요솟수: ");

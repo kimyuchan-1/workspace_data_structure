@@ -1,4 +1,4 @@
-package Chap6_Sorting;
+package chap6_Sorting;
 
 import java.util.Random;
 //셸정렬(버전 2 : h = …, 40, 13, 4, 1)
@@ -35,6 +35,7 @@ public class 실습6_7_1ShellSort3 {
 	         System.out.print(d[i] + " ");
 	 }
 	public static void main(String[] args) {
+		@SuppressWarnings("resource")
 		Scanner stdIn = new Scanner(System.in);
 
 		System.out.println("셸 정렬(버전 2)");

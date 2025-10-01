@@ -62,12 +62,6 @@ class Queue4 {
 		} else {
 			int j = que.get(front);
 			que.remove(front);
-			List<Integer> temp = new ArrayList<Integer>(capacity);
-			for (int i = 0; i < rear; i++) {
-				temp.add(i, que.get(i+1));
-				System.out.println(temp.get(i));
-			}
-			que = temp;
 			rear--;
 			return j;
 		}
