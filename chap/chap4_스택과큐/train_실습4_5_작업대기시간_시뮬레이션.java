@@ -1,5 +1,95 @@
 package chap4_스택과큐;
 
+import java.util.Random;
+import java.util.Scanner;
+
+class WorkSheet {
+	private String wName;
+	private int wTime;
+	
+	public WorkSheet(String wName, int wTime) {
+		this.wName = wName;
+		this.wTime = wTime;
+	}
+
+	public String getWName() {
+		return wName;
+	}
+
+	public int getWTime() {
+		return wTime;
+	}
+	public void setWTime(int time) {
+		wTime = wTime - time;
+		if (wTime < 0) {
+			wTime = 0;
+		}
+	}
+}
+
+class workSpace {
+	private int spaceSize;
+	private int front;
+	private int rear;
+	private int timeSlot;
+	private boolean isEmptyTag;
+	private WorkSheet[] works;
+	
+	@SuppressWarnings("serial")
+	public class EmptyQueueException extends RuntimeException {
+		public EmptyQueueException(String msg) {
+			super(msg);
+		}
+	}
+
+	@SuppressWarnings("serial")
+	public class OverflowQueueException extends RuntimeException {
+		public OverflowQueueException(String msg) {
+			super(msg);
+		}
+	}
+	
+	public workSpace(int workNum, int timeSlot) {
+		spaceSize = workNum;
+		this.timeSlot = timeSlot;
+		front = rear = 0;
+		works = new WorkSheet[spaceSize];
+		isEmptyTag = true;
+	}
+	
+	public void inque(WorkSheet ws) throws OverflowQueueException {
+		if (isFull()) {
+			throw new OverflowQueueException("Workspace is overflow");
+		} else {
+			works[rear] = ws;
+			rear = (rear + 1) % spaceSize;
+			isEmptyTag = false;
+			ws.setWTime(timeSlot);
+		}
+	}
+	
+	public WorkSheet deque(WorkSheet ws) throws EmptyQueueException {
+		if (isEmpty()) {
+			throw new EmptyQueueException("Workspace is empty");
+		} else {
+			WorkSheet result = works[front];
+			works[front] = null;
+			front = (front + 1) % spaceSize;
+			return result;
+		}
+	}
+	
+	private boolean isFull() {
+		return (front == rear && isEmptyTag == false);
+	}
+	
+	private boolean isEmpty() {
+		return (front == rear && isEmptyTag == true);
+	}
+	
+	
+}
+
 public class train_실습4_5_작업대기시간_시뮬레이션 {
 	/*
 	문제 예시: timeslot 기반의 작업 scheduling 시스템
@@ -31,4 +121,32 @@ public class train_실습4_5_작업대기시간_시뮬레이션 {
 	1 ≤ 작업의 개수 ≤ 100
 	각 작업의 남은 시간은 1 이상 100 이하입니다.
 	*/
+	
+	
+	
+	public static void main(String args[]) {
+		Random rd = new Random();
+		Scanner sc = new Scanner(System.in);
+		
+		int workNum = rd.nextInt(5)+1;
+		
+		System.out.print("타임슬롯의 크기를 입력해주세요(1 ≤ T ≤ 10): ");
+		int timeSlot = sc.nextInt();
+		workSpace wSpace = new workSpace(workNum, timeSlot);
+		System.out.println();
+		
+		for (int i = 0; i < workNum; i++) {
+			System.out.print("작업 이름과 작업의 남은 시간(작업 이름, 시간)을 입력해주세요: ");
+			String[] input = sc.nextLine().split(",");
+			WorkSheet ws = new WorkSheet(input[0], Integer.parseInt(input[1]));
+			wSpace.inque(ws);
+			System.out.println();
+		}
+		
+		
+
+		
+	}
+	
+	
 }

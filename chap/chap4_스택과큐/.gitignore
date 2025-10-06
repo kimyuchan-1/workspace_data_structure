@@ -31,3 +31,12 @@
 /train_실습4_3_4객체원형큐배열.class
 /train_실습4_4_스택응용_괄호매칭검사.class
 /train_실습4_5_작업대기시간_시뮬레이션.class
+/train_실습4_5_작업대기시간_시뮬레이션$workSheet.class
+/workSheet.class
+/workQueue.class
+/workQueue$EmptyQueueException.class
+/workQueue$OverflowQueueException.class
+/workSpace$EmptyQueueException.class
+/workSpace$OverflowQueueException.class
+/workSpace.class
+/WorkSheet.class
