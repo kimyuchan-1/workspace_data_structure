@@ -19,7 +19,7 @@ class WorkSheet {
 	public int getWTime() {
 		return wTime;
 	}
-	public void setWTime(int time) {
+	public void reduceWTime(int time) {
 		wTime = wTime - time;
 		if (wTime < 0) {
 			wTime = 0;
@@ -27,13 +27,14 @@ class WorkSheet {
 	}
 }
 
-class workSpace {
+class WorkSpace {
 	private int spaceSize;
 	private int front;
 	private int rear;
 	private int timeSlot;
 	private boolean isEmptyTag;
 	private WorkSheet[] works;
+	public int cnt;
 	
 	@SuppressWarnings("serial")
 	public class EmptyQueueException extends RuntimeException {
@@ -49,12 +50,32 @@ class workSpace {
 		}
 	}
 	
-	public workSpace(int workNum, int timeSlot) {
+	public WorkSpace(int workNum, int timeSlot) {
 		spaceSize = workNum;
 		this.timeSlot = timeSlot;
-		front = rear = 0;
+		front = rear = cnt = 0;
 		works = new WorkSheet[spaceSize];
 		isEmptyTag = true;
+	}
+	
+	public void working() {
+		WorkSheet curW = peek();
+		curW.reduceWTime(timeSlot);
+		System.out.printf("%s의 남은 작업 시간: %d \n", curW.getWName(), curW.getWTime());
+		if (curW.getWTime() == 0) {
+			deque();
+		} else {
+			change();
+		}
+		cnt++;
+	}
+	
+	private void change() {
+		WorkSheet temp = peek();
+		works[front] = null;
+		front = (front + 1) % spaceSize;
+		works[rear] = temp;
+		rear = (rear + 1) % spaceSize;
 	}
 	
 	public void inque(WorkSheet ws) throws OverflowQueueException {
@@ -64,18 +85,48 @@ class workSpace {
 			works[rear] = ws;
 			rear = (rear + 1) % spaceSize;
 			isEmptyTag = false;
-			ws.setWTime(timeSlot);
 		}
 	}
 	
-	public WorkSheet deque(WorkSheet ws) throws EmptyQueueException {
+	private void deque() throws EmptyQueueException {
 		if (isEmpty()) {
 			throw new EmptyQueueException("Workspace is empty");
 		} else {
 			WorkSheet result = works[front];
 			works[front] = null;
 			front = (front + 1) % spaceSize;
-			return result;
+			System.out.printf("%s 작업 완료 \n", result.getWName());
+			if (front == rear) {
+				isEmptyTag = true;
+			}
+		}
+	}
+	
+	private WorkSheet peek() throws EmptyQueueException {
+		if (isEmpty()) {
+			throw new EmptyQueueException("Workspace is empty");
+		} else {
+			return works[front];
+		}
+	}
+	
+	public void clear() {
+		int n = size();
+		for (int i = 0; i < n; i++) {
+			int idx = (front + i) % spaceSize;
+			works[idx] = null;
+		}
+		front = rear = 0;
+		isEmptyTag = true;
+	}
+	
+	public int size() {
+		if (front == rear) {
+			return isEmptyTag == true ? 0 : spaceSize;
+		} else if (front < rear) {
+			return rear - front; 
+		} else {
+			return spaceSize - (front - rear);
 		}
 	}
 	
@@ -122,8 +173,6 @@ public class train_실습4_5_작업대기시간_시뮬레이션 {
 	각 작업의 남은 시간은 1 이상 100 이하입니다.
 	*/
 	
-	
-	
 	public static void main(String args[]) {
 		Random rd = new Random();
 		Scanner sc = new Scanner(System.in);
@@ -132,19 +181,26 @@ public class train_실습4_5_작업대기시간_시뮬레이션 {
 		
 		System.out.print("타임슬롯의 크기를 입력해주세요(1 ≤ T ≤ 10): ");
 		int timeSlot = sc.nextInt();
-		workSpace wSpace = new workSpace(workNum, timeSlot);
+		WorkSpace wSpace = new WorkSpace(workNum, timeSlot);
 		System.out.println();
 		
 		for (int i = 0; i < workNum; i++) {
-			System.out.print("작업 이름과 작업의 남은 시간(작업 이름, 시간)을 입력해주세요: ");
-			String[] input = sc.nextLine().split(",");
+			System.out.print("작업 이름과 작업의 남은 시간(작업 이름,시간)을 입력해주세요: ");
+			String[] input = sc.next().split(",");
 			WorkSheet ws = new WorkSheet(input[0], Integer.parseInt(input[1]));
 			wSpace.inque(ws);
 			System.out.println();
 		}
-		
-		
-
+		try {
+			while (wSpace.size() != 0) {
+				wSpace.working();
+			}
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		} finally {
+			System.out.printf("총 %d번 작업하였습니다.", wSpace.cnt);
+			sc.close();
+		}
 		
 	}
 	

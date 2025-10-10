@@ -40,3 +40,6 @@
 /workSpace$OverflowQueueException.class
 /workSpace.class
 /WorkSheet.class
+/WorkSpace$EmptyQueueException.class
+/WorkSpace$OverflowQueueException.class
+/WorkSpace.class

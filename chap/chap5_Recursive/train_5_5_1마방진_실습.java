@@ -26,6 +26,17 @@ public class train_5_5_1마방진_실습 {
         for (int num = 1; num <= n * n; num++) {
             magicSquare[row][col] = num; // 현재 위치에 숫자 배치
             //구현
+            
+            int nextRow = (row - 1 + n) % n;
+            int nextCol = (col + 1) % n;
+            
+            if (magicSquare[nextRow][nextCol] != 0) {
+            	row = (row + 1) % n;
+            } else {
+            	row = nextRow;
+            	col = nextCol;
+            }
+            
         }
 
         // 마방진 출력
@@ -40,10 +51,47 @@ public class train_5_5_1마방진_실습 {
     // 마방진 출력 메서드
     static void showSquare(int[][] magicSquare) {
     	//구현
+    	int n = magicSquare.length;
+    	for (int i = 0; i < n; i++) {
+    		for (int j = 0; j < n; j++) {
+    			System.out.printf("%d \t", magicSquare[i][j]);
+    		}
+    		System.out.println();
+    	}
     }
 
     // 마방진 유효성 검증 메서드
     static boolean checkSquare(int[][] magicSquare, int magicSum) {
     	// 구현 
+    	boolean result = false;
+    	int n = magicSquare.length;
+    	int rSum, cSum, dSum, rdSum;
+    	
+    	for (int i = 0; i < n; i++) {
+    		rSum = cSum = 0;
+    		for (int j = 0; j < n; j++) {
+    			rSum += magicSquare[i][j];
+    			cSum += magicSquare[j][i];
+    		}
+    		if (rSum == magicSum && cSum == magicSum) {
+    			result = true;
+    		} else {
+    			result = false;
+    		}
+    	}
+    	
+    	dSum = rdSum = 0;
+    	for (int i = 0; i < n; i++) {
+    		dSum += magicSquare[i][i];
+    		rdSum += magicSquare[i][n-1-i];
+    	}
+    	
+    	if (dSum == magicSum && rdSum == magicSum) {
+    		result = true;
+    	} else {
+    		result = false;
+    	}
+    	
+    	return result;
     }
 }

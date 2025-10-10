@@ -39,8 +39,9 @@ class IntStack {
 
 	// --- 스택에 x를 푸시 ---//
 	public void push(int p) throws OverflowIntStackException {
-		if (top >= capacity) // 스택이 가득 참
+		if (top >= capacity) {// 스택이 가득 참
 			throw new OverflowIntStackException();
+		}
 		data[top++] = p;
 		return;
 	}
@@ -48,8 +49,9 @@ class IntStack {
 	// --- 스택에서 데이터를 팝(정상에 있는 데이터를 꺼냄) ---//
 	public int pop() throws EmptyIntStackException {
 		//System.out.println("pop():: top = " + top);
-		if (top <= 0) // 스택이 빔
+		if (top <= 0) {// 스택이 빔
 			throw new EmptyIntStackException();
+		}
 //		Point ip = data[--top];
 //		System.out.println("pop::"+ip.toString());
 		return data[--top];
@@ -57,8 +59,10 @@ class IntStack {
 
 	// --- 스택에서 데이터를 피크(peek, 정상에 있는 데이터를 들여다봄) ---//
 	public int peek() throws EmptyIntStackException {
-		if (top <= 0) // 스택이 빔
+		if (top <= 0) {// 스택이 빔
 			throw new EmptyIntStackException();
+		}
+		
 		return data[top - 1];
 	}
 
