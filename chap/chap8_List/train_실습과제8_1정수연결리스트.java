@@ -1,4 +1,4 @@
-package Chap8_List;
+package chap8_List;
 //단순한 linked list에서 insert, delete하는 알고리즘을 코딩: 1단계
 
 import java.util.Random;
@@ -23,14 +23,38 @@ class LinkedList1 {
 
 	public boolean Delete(int element) //전달된 element 값이 존재 하면 삭제하고 true로 리턴
 	{
-		Node1 q, current = first;
-		q = current;
-	
+
+		Node1 p = first;
+		Node1 q = null;
+		
+		while (p != null) {
+			if (element == p.data) {
+				if (p == first) {
+					first = p.link;
+				} else {
+					q.link = p.link;
+				}
+				return true;
+			}
+			q = p;
+			p = p.link;
+		}
+		
+		return false;
 	}
 
 	public void Show() { // 전체 리스트를 순서대로 출력한다.
 		Node1 p = first;
 		int num = 0;
+		if (p == null) {
+			System.out.println("Empty");
+		}
+		
+		while (p != null) {
+			System.out.printf("(%d) %d  ",num++ ,p.data);
+			p = p.link;
+		}
+		System.out.println();
 
 	}
 
@@ -41,12 +65,42 @@ class LinkedList1 {
 		{
 			first = newNode;
 			return;
+		} else {
+			Node1 ptr = first;
+			Node1 qtr = null; // qtr는 ptr를 따라다닌다
+			while (ptr != null) {
+				if (newNode.data < ptr.data) {
+					if (ptr == first) {
+						newNode.link = ptr;
+						first = newNode;
+						return;
+					} else {
+						newNode.link = ptr;
+						qtr.link = newNode;
+						return;
+					}
+				} else {
+					qtr = ptr;
+					ptr = ptr.link;
+				}
+			}
+			if (qtr != null) {
+				qtr.link = newNode;
+				return;
+			}
 		}
 
 	}
 
-	public boolean Search(int data) { 전달된 data 값을 찾아 존재하면 true로 리턴, 없으면 false로 리턴
+	public boolean Search(int data) { //전달된 data 값을 찾아 존재하면 true로 리턴, 없으면 false로 리턴
 		Node1 ptr = first;
+		
+		while (ptr != null) {
+			if (data == ptr.data) {
+				return true;
+			}
+			ptr = ptr.link;
+		}
 
 		return false;
 	}
@@ -57,11 +111,11 @@ class LinkedList1 {
 		 * 난이도 등급: 최상
 		 * a = (3, 5, 7), b = (2,4,8,9)이면 a = (2,3,4,5,8,9)가 되도록 구현하는 코드
 		 */
-
+		
 	}
 }
 
-public class 실습9_1정수연결리스트 {
+public class train_실습과제8_1정수연결리스트 {
 	enum Menu {
 		Add("삽입"), Delete("삭제"), Show("인쇄"), Search("검색"), Merge("합병"), Exit("종료");
 
@@ -87,8 +141,7 @@ public class 실습9_1정수연결리스트 {
 	}
 
 	// --- 메뉴 선택 ---//
-	static Menu SelectMenu() {
-		Scanner sc = new Scanner(System.in);
+	static Menu SelectMenu(Scanner sc) {
 		int key;
 		do {
 			for (Menu m : Menu.values()) {
@@ -100,6 +153,7 @@ public class 실습9_1정수연결리스트 {
 			System.out.print(" : ");
 			key = sc.nextInt();//메뉴 선택 번호로 입력된 값이 key이다 
 		} while (key < Menu.Add.ordinal() || key > Menu.Exit.ordinal());//입력된 key가 음수이거나 Exit에 대한 enum 숫자보다 크면 다시 입력받는다 
+
 		return Menu.MenuAt(key);
 	}
 
@@ -113,9 +167,9 @@ public class 실습9_1정수연결리스트 {
 
 		int data = 0;
 		do {
-			switch (menu = SelectMenu()) {//Menu 생성자 호출 - menu 객체를 리턴한다 
+			switch (menu = SelectMenu(sc)) {//Menu 생성자 호출 - menu 객체를 리턴한다 
 			case Add: // 난수를 삽입하는데 올림차순으로 정렬되도록 구현
-				for (int i =0; i < count; i++) {
+				for (int i = 0; i < count; i++) {
 					data = rand.nextInt(100);
 					l.Add(data);
 				}
@@ -155,5 +209,6 @@ public class 실습9_1정수연결리스트 {
 				break;
 			}
 		} while (menu != Menu.Exit);
+		sc.close();
 	}
 }

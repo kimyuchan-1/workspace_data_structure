@@ -55,6 +55,8 @@ class Stack {
 
 	// --- 실행시 예외: 스택이 가득 참 ---//
 	public class OverflowGenericStackException extends RuntimeException {
+		private static final long serialVersionUID = 1L;
+
 		public OverflowGenericStackException(String message) {
 			super(message);
 		}
@@ -69,23 +71,40 @@ class Stack {
 	public Stack(int capacity) {
 		this.capacity = capacity;
 		top = 0;
-		data = new List<Point>[capacity];
+		data = new ArrayList<Point>(capacity);
 	}
 
 	// --- 스택에 x를 푸시 ---//
 	public boolean push(Point x) throws OverflowGenericStackException {
-
-
+		
+		if (isFull()) {
+			throw new OverflowGenericStackException("overflow");
+		}
+		data.add(x);
+		top++;
+		return true;
 	}
 
 	// --- 스택에서 데이터를 팝(정상에 있는 데이터를 꺼냄) ---//
 	public Point pop() throws EmptyGenericStackException {
-
+		
+		if (isEmpty()) {
+			throw new EmptyGenericStackException("empty");
+		}
+		Point temp = data.get(top);
+		data.remove(top--);
+		return temp;
 	}
 
 	// --- 스택에서 데이터를 피크(peek, 정상에 있는 데이터를 들여다봄) ---//
 	public Point peek() throws EmptyGenericStackException {
 
+		if (isEmpty()) {
+			throw new EmptyGenericStackException("empty");
+		}
+		Point temp = data.get(top);
+		return temp;
+		
 	}
 
 	// --- 스택을 비움 ---//
@@ -135,7 +154,6 @@ class Stack {
 
 public class train_QueenEight_구현실습과제 {
 
-	
 	private static int EightQueen(int[][] d) {
 		int numberOfSolutions = 0;
 		int count = 0;//퀸 배치 갯수
@@ -155,7 +173,7 @@ public class train_QueenEight_구현실습과제 {
 			}
 				//push() nextMove()의 반환값이 -1이 아닌 경우
 			if (count == 8) { //8개를 모두 배치하면
-
+				numberOfSolutions++;
 			}
 
 		}
@@ -163,24 +181,64 @@ public class train_QueenEight_구현실습과제 {
 	}
 
 
-	public static boolean checkRow(int[][] d, int crow) { //배열 d에서 행 crow에 퀸을 배치할 수 있는지 조사
-	
+	public static boolean checkRow(int[][] d, int crow) throws Exception { //배열 d에서 행 crow에 퀸을 배치할 수 있는지 조사
+		if (crow < 0 || crow > d.length) {
+			throw new Exception("범위에서 벗어남");
+		}
+		boolean result = false;
+		for (int i = 0; i < d[0].length; i++) {
+			if (d[crow][i] == 1) {
+				result = false;
+				return result;
+			}
+		}
+		result = true;
+		return result;
 	}
 
-	public static boolean checkCol(int[][] d, int ccol) {//배열 d에서 열 ccol에 퀸을 배치할 수 있는지 조사
-	
+	public static boolean checkCol(int[][] d, int ccol) throws Exception{//배열 d에서 열 ccol에 퀸을 배치할 수 있는지 조사
+		if (ccol < 0 || ccol > d[0].length) {
+			throw new Exception("범위에서 벗어남");
+		}
+		boolean result = false;
+		for (int i = 0; i < d.length; i++) {
+			if (d[i][ccol] == 1) {
+				result = false;
+				return result;
+			}
+		}
+		result = true;
+		return result;
 	}
 	//배열 d에서 행 cx, 열 cy에 퀸을 남서, 북동 대각선으로 배치할 수 있는지 조사
-	public static boolean checkDiagSW(int[][] d, int cx, int cy) { // x++, y-- or x--, y++ where 0<= x,y <= 7
-		while (cx >= 0 && cx <= 7 && cy >= 0 && cy <= 7) {
-			
+	public static boolean checkDiagSW(int[][] d, int cx, int cy) throws Exception{ // x++, y-- or x--, y++ where 0<= x,y <= 7
+		if (cx < 0 || cx > d.length || cy < 0 || cy > d[0].length ) {
+			throw new Exception("범위에서 벗어남");
 		}
-		
+		boolean result = false;
+
+		while (cx >= 0 && cx <= 7 && cy >= 0 && cy <= 7) {
+			if (d[cx][cy] == 1) {
+				result = true;
+				return result;
+			}
+			cx = cx + d.length % 8;
+			cx = cx + d.length % 8;
+		}
+		return result;
 	}
 
 	//배열 d에서 행 cx, 열 cy에 퀸을 남동, 북서 대각선으로 배치할 수 있는지 조사
-	public static boolean checkDiagSE(int[][] d, int cx, int cy) {// x++, y++ or x--, y--
-	
+	public static boolean checkDiagSE(int[][] d, int cx, int cy) throws Exception{// x++, y++ or x--, y--
+		if (cx < 0 || cx > d.length || cy < 0 || cy > d[0].length ) {
+			throw new Exception("범위에서 벗어남");
+		}
+		boolean result = false;
+
+		while (cx >= 0 && cx <= 7 && cy >= 0 && cy <= 7) {
+			
+		}
+		return result;
 	}
 	//배열 d에서 (x,y)에 퀸을 배치할 수 있는지  조사
 	public static boolean checkMove(int[][] d, int x, int y) {// (x,y)로 이동 가능한지를 check
@@ -204,14 +262,19 @@ public class train_QueenEight_구현실습과제 {
 	}
 
 	public static void main(String[] args) {
-		int row = 8, col = 8;
-		int[][] data = new int[row][col];
-		for (int i = 0; i < data.length; i++) {
-			for (int j = 0; j < data[0].length; j++) {
-				data[i][j] = 0;
+		try {
+			int row = 8, col = 8;
+			int[][] data = new int[row][col];
+			for (int i = 0; i < data.length; i++) {
+				for (int j = 0; j < data[0].length; j++) {
+					data[i][j] = 0;
+				}
 			}
+			EightQueen(data);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
-		EightQueen(data);
+		
 	
 	}
 }

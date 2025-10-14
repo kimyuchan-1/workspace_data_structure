@@ -1,4 +1,4 @@
-package Chap8_List;
+package chap8_List;
 /*
  * 정수 리스트 > 객체 리스트: 2번째 실습 대상
  */
@@ -12,6 +12,7 @@ class SimpleObject5 {
 
 	private String no; // 회원번호
 	private String name; // 이름
+	@SuppressWarnings("unused")
 	private String expire;//  유효기간 필드를 추가
 
 	// --- 문자열 표현을 반환 ---//
@@ -22,8 +23,8 @@ class SimpleObject5 {
 		no = null;name = null;
 	}
 	// --- 데이터를 읽어 들임 ---//
-	void scanData(String guide, int sw) {//sw가 3이면 11 비트 연산 >  NO, NAME을 모두 입력받는다 
-		Scanner sc = new Scanner(System.in);
+	void scanData(String guide, int sw, Scanner sc) {//sw가 3이면 11 비트 연산 >  NO, NAME을 모두 입력받는다 
+
 		System.out.println(guide + "할 데이터를 입력하세요."+ sw);
 
 		if ((sw & NO) == NO) { //& 는 bit 연산자임 sw가 3이면 &는 비트 연산이므로 결과는 1
@@ -109,7 +110,7 @@ class LinkedList2 {
 		 */
 	}
 }
-public class 실습9_2객체연결리스트 {
+public class train_실습과제8_2객체연결리스트 {
 
 	enum Menu {
 		Add( "삽입"), Delete( "삭제"), Show( "인쇄"), Search( "검색"), Merge("합병"), Exit( "종료");
@@ -133,8 +134,7 @@ public class 실습9_2객체연결리스트 {
 	}
 
 	//--- 메뉴 선택 ---//
-	static Menu SelectMenu() {
-		Scanner sc = new Scanner(System.in);
+	static Menu SelectMenu(Scanner sc) {
 		int key;
 		do {
 			for (Menu m : Menu.values()) {
@@ -157,15 +157,15 @@ public class 실습9_2객체연결리스트 {
 		int count = 3; //3개의 객체 입력 개수
 		SimpleObject5 data;
 		do {
-			switch (menu = SelectMenu()) {
+			switch (menu = SelectMenu(sc)) {
 			case Add :                          
 				data = new SimpleObject5();
-				data.scanData("입력", 3);
+				data.scanData("입력", 3, sc);
 				l.Add(data, SimpleObject5.NO_ORDER);//회원번호 순서로 정렬 입력
 				break;
 			case Delete :                         
 				data = new SimpleObject5();
-				data.scanData("삭제", SimpleObject5.NO);
+				data.scanData("삭제", SimpleObject5.NO, sc);
 				int num = l.Delete(data, SimpleObject5.NO_ORDER);//회원번호 조건 비교하여 삭제 
 				System.out.println("삭제된 데이터 성공은 " + num);
 				break;
@@ -174,7 +174,7 @@ public class 실습9_2객체연결리스트 {
 				break;
 			case Search : // 회원 번호 검색
 				data = new SimpleObject5();
-				data.scanData("탐색", SimpleObject5.NO);
+				data.scanData("탐색", SimpleObject5.NO, sc);
 				boolean result = l.Search(data, SimpleObject5.NO_ORDER);//회원번호로 검색
 				if (result)
 					System.out.println("검색 성공 = " + result );
@@ -184,7 +184,7 @@ public class 실습9_2객체연결리스트 {
 			case Merge://난이도 상
 				for (int i = 0; i < count; i++) {//3개의 객체를 연속으로 입력받아 l2 객체를 만든다 
 					data = new SimpleObject5();
-					data.scanData("병합", 3);
+					data.scanData("병합", 3, sc);
 					l2.Add(data, SimpleObject5.NO_ORDER );				
 				}
 				System.out.println("리스트 l::");
@@ -200,6 +200,7 @@ public class 실습9_2객체연결리스트 {
 				break;
 			}
 		} while (menu != Menu.Exit);
+		sc.close();
 	}
 }
 

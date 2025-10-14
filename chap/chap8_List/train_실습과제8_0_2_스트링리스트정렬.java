@@ -1,9 +1,4 @@
-package Chap8_List;
-
-
-
-}
-package Chap8_List;
+package chap8_List;
 //KDT2_1회차 제외 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +21,17 @@ public class train_실습과제8_0_2_스트링리스트정렬 {
           }
       }.apply(x.size()));
 	 */
+	/*
+	 * IntFunction<R>은 자바 8에서 도입된 java.util.function 패키지의 함수형 인터페이스
+	 *  추상 메소드: R apply(int value);
+	 * 역할: 주로 배열의 크기를 입력받아 새로운 배열을 생성하는 공장(Factory) 역할
+	 */
+	/*
+	 * String[]::new는 배열 생성자 참조(Array Constructor Reference)
+	 * -> 람다 표현식 (size) -> new String[size]와 정확히 동일한 기능
+	 * -> IntFunction<String[]>의 유일한 추상 메서드인 apply(int value)
+	 * -> List.toArray(generator) 메서드는 리스트의 크기 N을 generator에 전달하여 스트링 배열 생성
+	 */
 
 	static void getList(List<String> list) {
 		list.add("서울");	list.add("북경");
@@ -45,12 +51,17 @@ public class train_실습과제8_0_2_스트링리스트정렬 {
 		String cities[] = new String[0];
 		cities = list.toArray(cities);
 		int count = cities.length;
-		for (int i = 0; i < count; i++)
+		for (int i = 0; i < count; i++) {
+			
+		}
 
-		return lst;
+		return list;
 	}
 	static void swap(List<String> list, int i, int j) {
-
+		String temp = list.get(i);
+		list.set(i, list.get(j));
+		list.set(j, temp);
+		
 	}
 	static void sortList2(List<String> list) {
 		//리스트 자체를 정렬
@@ -62,7 +73,7 @@ public class train_실습과제8_0_2_스트링리스트정렬 {
 		cities = list.toArray(cities);//list의 결과로서 배열의 크기를 잡은 후에 동적으로 배열의 크기를 정한다 
 		int count = cities.length;
 		for (int i = 0; i< count; i++) {
-
+			
 		}
 		// 대체 코드
 		/*

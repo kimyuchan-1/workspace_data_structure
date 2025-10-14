@@ -1,5 +1,5 @@
 
-package Chap8_List;
+package chap8_List;
 /*
  * 정수 리스트 > 객체 리스트 >
  * * 헤드 노드가 있는 원형 리스트, 헤드 노드가 없는 원형 리스트 구현
@@ -31,8 +31,7 @@ class SimpleObject2 {
 		return "(" + no + ") " + name;
 	}
 	// --- 데이터를 읽어 들임 ---//
-	void scanData(String guide, int sw) {
-		Scanner sc = new Scanner(System.in);
+	void scanData(String guide, int sw, Scanner sc) {
 		System.out.println(guide + "할 데이터를 입력하세요."+ sw);
 
 		if ((sw & NO) == NO) { //& 는 bit 연산자임
@@ -155,8 +154,8 @@ public class train_실습과제8_6객체이중리스트 {
 	}
 
 	// --- 메뉴 선택 ---//
-	static Menu SelectMenu() {
-		Scanner sc1 = new Scanner(System.in);
+	static Menu SelectMenu(Scanner sc) {
+
 		int key;
 		do {
 			for (Menu m : Menu.values()) {
@@ -165,14 +164,14 @@ public class train_실습과제8_6객체이중리스트 {
 					System.out.println();
 			}
 			System.out.print(" : ");
-			key = sc1.nextInt();
+			key = sc.nextInt();
 		} while (key < Menu.Add.ordinal() || key > Menu.Exit.ordinal());
 		return Menu.MenuAt(key);
 	}
 
 	public static void main(String[] args) {
 		Menu menu; // 메뉴
-		Scanner sc2 = new Scanner(System.in);
+		Scanner sc = new Scanner(System.in);
 		DoubledLinkedList2 lst1 = new DoubledLinkedList2(),	lst2 = new DoubledLinkedList2();
 		DoubledLinkedList2 lst3 = new DoubledLinkedList2(), lst4 = new DoubledLinkedList2();
 		String sno1 = null, sname1 = null;
@@ -180,7 +179,7 @@ public class train_실습과제8_6객체이중리스트 {
 		boolean result = false;
 		int count = 3;
 		do {
-			switch (menu = SelectMenu()) {
+			switch (menu = SelectMenu(sc)) {
 			case Add: // 객체들의 올림차순으로 정렬되도록 구현
 //				so =  new SimpleObject2();
 //				so.scanData("입력", 3);
@@ -192,7 +191,7 @@ public class train_실습과제8_6객체이중리스트 {
 				break;
 			case Delete: // 임의 객체를 삭제
 				so =  new SimpleObject2();
-				so.scanData("삭제", SimpleObject2.NO);
+				so.scanData("삭제", SimpleObject2.NO, sc);
 				lst1.delete(so, SimpleObject2.NO_ORDER);
 				break;
 			case Show: // 리스트 전체를 출력
@@ -200,7 +199,7 @@ public class train_실습과제8_6객체이중리스트 {
 				break;
 			case Search: // 회원 번호 검색
 				so =  new SimpleObject2();
-				so.scanData("탐색", SimpleObject2.NO);
+				so.scanData("탐색", SimpleObject2.NO, sc);
 				result = lst1.search(so, SimpleObject2.NO_ORDER);
 				if (!result)
 					System.out.println("검색 값 = " + so + "데이터가 없습니다.");
@@ -248,6 +247,7 @@ public class train_실습과제8_6객체이중리스트 {
 				break;
 			}
 		} while (menu != Menu.Exit);
+		sc.close();
 	}
 	static void makeSimpleObjects(SimpleObject2 []simpleobjects) {
         simpleobjects[0] = new SimpleObject2("s8", "hong", "240618");

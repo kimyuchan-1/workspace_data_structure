@@ -1,4 +1,4 @@
-package Chap8_List;
+package chap8_List;
 
 /*
  * 정수 리스트 > 객체 리스트> 객체 원형 리스트 
@@ -30,8 +30,7 @@ class SimpleObject3 {
 		this.name = null;
 	}
 	// --- 데이터를 읽어 들임 ---//
-	void scanData(String guide, int sw) {
-		Scanner sc = new Scanner(System.in);
+	void scanData(String guide, int sw, Scanner sc) {
 		System.out.println(guide + "할 데이터를 입력하세요." + sw);
 
 		if ((sw & NO) == NO) { // & 는 bit 연산자임
@@ -112,17 +111,22 @@ class CircularList {
 
 		return false;
 	}
-	void Merge(CircularList2 b, Comparator<SimpleObject3> cc) {
+	void Merge(CircularList b, Comparator<SimpleObject3> cc) {
 		/*
 		 * 연결리스트 a,b에 대하여 a = a + b
 		 * merge하는 알고리즘 구현으로 in-place 방식으로 합병/이것은 새로운 노드를 만들지 않고 합병하는 알고리즘 구현
 		 * 난이도 등급: 최상급
 		 * 회원번호에 대하여 a = (3, 5, 7), b = (2,4,8,9)이면 a = (2,3,4,5,8,9)가 되도록 구현하는 코드
 		 */
+		if (b.first == null) {
+			return;
+		} else {
+			
+		}
 	}
 }
 
-public class 실습9_4객체원형리스트 {
+public class train_실습과제8_4객체원형리스트 {
 	enum Menu {
 		Add("삽입"), Delete("삭제"), Show("인쇄"), Search("검색"), Merge("합병"), Exit("종료");
 
@@ -145,8 +149,8 @@ public class 실습9_4객체원형리스트 {
 	}
 
 	// --- 메뉴 선택 ---//
-	static Menu SelectMenu() {
-		Scanner sc = new Scanner(System.in);
+	static Menu SelectMenu(Scanner sc) {
+		
 		int key;
 		do {
 			for (Menu m : Menu.values()) {
@@ -169,15 +173,15 @@ public class 실습9_4객체원형리스트 {
 		int count = 3;//l2 객체의 숫자를 3개로 한다 
 
 		do {
-			switch (menu = SelectMenu()) {
+			switch (menu = SelectMenu(sc)) {
 			case Add: //
 				data = new SimpleObject3();
-				data.scanData("입력", 3);
+				data.scanData("입력", 3, sc);
 				l.Add(data, SimpleObject3.NO_ORDER);
 				break;
 			case Delete: // 
 				data = new SimpleObject3();
-				data.scanData("삭제", SimpleObject3.NO);
+				data.scanData("삭제", SimpleObject3.NO, sc);
 				int num = l.Delete(data, SimpleObject3.NO_ORDER);
 				System.out.println("삭제된 데이터 성공은 " + num);
 				break;
@@ -186,7 +190,7 @@ public class 실습9_4객체원형리스트 {
 				break;
 			case Search: // 회원 번호 검색
 				data = new SimpleObject3();
-				data.scanData("탐색", SimpleObject3.NO);
+				data.scanData("탐색", SimpleObject3.NO, sc);
 				boolean result = l.Search(data, SimpleObject3.NO_ORDER);
 				if (result)
 					System.out.println("검색 성공 = " + result);
@@ -196,14 +200,14 @@ public class 실습9_4객체원형리스트 {
 			case Merge:
 				for (int i = 0; i < count; i++) {//3개의 객체를 연속으로 입력받아 l2 객체를 만든다 
 					data = new SimpleObject3();
-					data.scanData("병합", 3);
-					l2.Add(data, SimpleObject5.NO_ORDER );				
+					data.scanData("병합", 3, sc);
+					l2.Add(data, SimpleObject3.NO_ORDER);				
 				}
 				System.out.println("리스트 l::");
 				l.Show();
 				System.out.println("리스트 l2::");
 				l2.Show();
-				l.Merge(l2, SimpleObject5.NO_ORDER);
+				l.Merge(l2, SimpleObject3.NO_ORDER);
 				//merge 실행후 show로 결과 확인 - 새로운 노드를 만들지 않고 합병 - 난이도 상
 				System.out.println("병합 리스트 l::");
 				l.Show();

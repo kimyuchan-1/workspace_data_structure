@@ -10,12 +10,14 @@ interface MaxHeap {
 
 class Heap implements MaxHeap {
 	final int heapSize = 100;
-	private int[] heap;
+	private int[] data;
 	private int n; // MaxHeap의 현재 입력된 element 개수
 	private int MaxSize; // Maximum allowable size of MaxHeap
 	
 	public Heap(int sz) {
-
+		MaxSize = sz;
+		n = 0;
+		data = new int[heapSize];
 	}
 
 	public void display() {//heap 배열을 출력한다. 배열 인덱스와 heap[]의 값을 출력한다.
@@ -24,24 +26,29 @@ class Heap implements MaxHeap {
 	}
 	@Override
 	public void Insert(int x) {//max heap이 되도록 insert한다. 삽입후 complete binary tree가 유지되어야 한다.
-		int i;
+		int i = n;
 		if (n == MaxSize) {
 			HeapFull();
 			return;
 		}
-
-
+		
+		while (i > 1 && x > data[i/2]) {
+			data[i] = data[i/2];
+			i /= 2;
+		}
+		data[i] = x;
 	}
 	@Override
 	public int DeleteMax() {//heap에서 가장 큰 값을 삭제하여 리턴한다. 
-		int x;
-		int i, j;
+		int x = data[0];
+		int i = n;
+		int j = 1;
 		if (n == 0) {
 			HeapEmpty();
 			int elm = 0;
 			return elm;
 		}
-	
+		
 		return x;
 	}
 
@@ -71,14 +78,18 @@ public class train_실습과제6_4_heap_정렬 {
 			select = stdIn.nextInt();
 			switch (select) {
 			case 1://난수를 생성하여 배열 x에 넣는다 > heap에 insert한다.
-
-			     showData(x);
+				int x
+				heap.Insert(x);
+			    showData(x);
 				break;
 			case 2:	//heap 트리구조를 배열 인덱스를 사용하여 출력한다.
 				heap.display();
 				break;
 			case 3://heap에서 delete를 사용하여 삭제된 값을 배열 sorted에 넣는다 > 배열 sorted[]를 출력하면 정렬 결과를 얻는다 
-	
+				while (0) {
+					result = heap.DeleteMax();
+					System.out.println();
+				}
 				break;
 
 			case 4:
