@@ -63,35 +63,46 @@ public class train_5_5_1마방진_실습 {
     // 마방진 유효성 검증 메서드
     static boolean checkSquare(int[][] magicSquare, int magicSum) {
     	// 구현 
-    	boolean result = false;
     	int n = magicSquare.length;
     	int rSum, cSum, dSum, rdSum;
     	
+    	for (int i = 0; i < n; i++) { 
+    		rSum = 0; 
+    		for (int j = 0; j < n; j++) { 
+    			rSum += magicSquare[i][j]; 
+    			} 
+    		if (rSum != magicSum) {
+    			return false; 
+    		}
+    	}
+    	
     	for (int i = 0; i < n; i++) {
-    		rSum = cSum = 0;
+    		cSum = 0;
     		for (int j = 0; j < n; j++) {
-    			rSum += magicSquare[i][j];
     			cSum += magicSquare[j][i];
     		}
-    		if (rSum == magicSum && cSum == magicSum) {
-    			result = true;
-    		} else {
-    			result = false;
+    		if (cSum != magicSum) {
+    			return false;
     		}
     	}
     	
     	dSum = rdSum = 0;
     	for (int i = 0; i < n; i++) {
     		dSum += magicSquare[i][i];
+    	}
+    	
+    	if (dSum != magicSum) {
+    		return false;
+    	}
+    	
+    	for (int i = 0; i < n; i++) {
     		rdSum += magicSquare[i][n-1-i];
     	}
     	
-    	if (dSum == magicSum && rdSum == magicSum) {
-    		result = true;
-    	} else {
-    		result = false;
+    	if (rdSum != magicSum) {
+    		return false;
     	}
     	
-    	return result;
+    	return true;
     }
 }
