@@ -2,9 +2,7 @@ package chap5_Recursive;
 //print로 변수 값 확인하는 디버깅 노동 피하자
 //이클립스 디버깅 실습 필요 : variables tab, Expressions tab 사용하기
 //92개 해 확인 필요
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+
 import java.util.Stack;
 
 //https://www.geeksforgeeks.org/n-queen-problem-backtracking-3/?ref=lbp
@@ -39,10 +37,11 @@ public class train_QueenEight_구현실습과제 {
 	
 	private static final int N = 8;
 	private static int[][] board;
-	
 	private static int numberOfSolutions = 0;
 	
 	private static void initializeBoard() {
+		board = new int[N][N];
+		
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
 				board[i][j] = 0;
@@ -53,21 +52,21 @@ public class train_QueenEight_구현실습과제 {
 	private static boolean isSafe(int row, int col) {
 		
 		// 행 검사
-		for (int i = col; i < N; i++) {
-			if (board[row][i] == 1) {
+		for (int i = 0; i < row; i++) {
+			if (board[i][col] == 1) {
 				return false;
 			}
 		}
 		
 		// 대각선 검사(오른쪽 위)
-		for (int i = N-1, j = N-1; i >= row && j >= col; i--, j--) {
+		for (int i = row -1, j = col-1; i >= 0 && j >= 0; i--, j--) {
 			if (board[i][j] == 1) {
 				return false;
 			}
 		}
 		
 		// 대각선 검사(왼쪽 위)
-		for (int i = N-1, j = col; i >= row && j < N; i--, j++) {
+		for (int i = row-1, j = col+1; i >= 0 && j < N; i--, j++) {
 			if (board[i][j] == 1) {
 				return false;
 			}
@@ -76,54 +75,86 @@ public class train_QueenEight_구현실습과제 {
 		return true;
 	}
 	
-	private static void solveNQueen() {
+	public static void solveNQueen() {
 		
-		int count = 0; // 퀸 배치 갯수
-		int ix = 0, iy = 0; // 행 ix, 열 iy
+		int ix = 0;	// 행 ix
+		int iy = 0; // 열 iy
 		
-		Stack<Point> st = new Stack<>(); 
-		Point p = new Point(ix, iy); //현 위치를 객체로 만들고
-		board[ix][iy] = 1;//현 위치에 queen을 넣었다는 표시를 하고
-		count++;
-		st.push(p);// 스택에 현 위치 객체를 push
-		ix++;//ix는 행별로 퀸 배치되는 것을 말한다.
+		// 배치된 퀸이 위치한 좌표 저장 스택
+		Stack<Point> st = new Stack<>();
 		
 		while (true) {
 			
-			for 
+			// 퀸이 안전한 위치에 도착했는가에 대한 flag
+			boolean placed = false;
 			
-			if (isSafe(ix, iy)) {
-				//pop() 물리기
-				Point backtrack = st.pop();
-				if (backtrack.getIx() == ix && backtrack.getIy() == iy) {
-					board[backtrack.getIx()][backtrack.getIy()] = 0;
+			// 현재 행에서 퀸을 배치할 수 있는 열 찾기
+			while (iy < N) {
+				// 안전하다면
+				if (isSafe(ix,iy)) {
+					board[ix][iy] = 1;
+					st.push(new Point(ix, iy));
+					placed = true;
 					break;
 				}
-				board[backtrack.getIx()][backtrack.getIy()] = 0;
-				count--;
+				iy++;
 			}
-				//push() nextMove()의 반환값이 -1이 아닌 경우
-			if (count == 8) { //8개를 모두 배치하면
-				numberOfSolutions++;
+			
+			// 퀸을 안전한 위치에 저장했다면 다른 형태의 배치 방법이 있는지 확인
+			if (placed) {
+				// 모든 퀸을 다 찾았다면
+				if (st.size() == N) { //8개를 모두 배치하면
+					numberOfSolutions++;
+					
+					// 퀸의 위치를 출력하는 함수
+					showQueens(st);
+				
+					// 다른 해를 찾기 위한 백트래킹, pop() 물리기
+					Point backtrack = st.pop();
+					board[backtrack.getIx()][backtrack.getIy()] = 0;
+					ix = backtrack.getIx();
+					iy = backtrack.getIy() + 1;
+				} else {
+					// 다음 열 확인, 행 초기화
+					ix++;
+					iy = 0;
+				}
+				// 퀸을 배치했는데, 다른 형태의 배치 방법이 없으면
+			} else {
+				// 퀸의 위치 좌표 st가 완전히 비었다면
+				if (st.isEmpty()) {
+					break;
+				}
+				// 백트래킹
+				Point backtrack = st.pop();
+				board[backtrack.getIx()][backtrack.getIy()] = 0;
+				ix = backtrack.getIx();
+				iy = backtrack.getIy() + 1;
 			}
 			
 		}
 		
 	}
 
-	private static void showQueens() {// 배열 출력
+	private static void showQueens(Stack<Point> st) {// 배열 출력
+		System.out.println(numberOfSolutions+"번 해");
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
-				System.out.printf("%3d",board[i][j] == 1 ? "Q" : "." );
+				System.out.printf("%3s",board[i][j] == 1 ? "Q" : "." );
 			}
 			System.out.println();
 		}
+		
+		for (int i = 0; i < N; i++) {
+			System.out.printf("(%d, %d)\t",st.get(i).getIx(),st.get(i).getIy());
+		}
+		System.out.println();
 	}
 
 	public static void main(String[] args) {
 		
 		initializeBoard();
 		solveNQueen();
-		showQueens();
+		System.out.println(numberOfSolutions+"개의 해를 찾았습니다.");
 	}
 }
