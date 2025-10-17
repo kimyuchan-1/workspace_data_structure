@@ -3,51 +3,41 @@ package chap6_Sorting;
  * 6장 구현과제3
  */
 
-class Term implements Comparable<Term>{
-    double coef;           // 계수
-    int    exp;            // 지수
-
-    Term(){}
-    
-    //--- 생성자(constructor) ---//
-    Term(double coef, int exp) {
-        this.coef = coef;  
-        this.exp = exp; 
-    }
-    
-	public double getCoef() {
-		return coef;
-	}
-
-	public int getExp() {
-		return exp;
-	}
-
-	@Override
-	public int compareTo(Term o) {
-		return this.exp.compareTo(o.getExp());
-	}
-
-}
-
-class Polynomial {
-	Term[] data;
-	int top;
-}
-
 public class train_실습과제6_3_Merge정렬다항식 {
 
 	// --- 배열 요소 a[idx1]와 a[idx2]의 값을 교환 ---//
 	static void merge(Term[] a, int lefta, int righta, int leftb, int rightb ) {
 		 //body를 지우고 작성 훈련 연습이 도움이 된다 
-		Term temp[] = new Term[30];
+		Term temp[] = new Term[rightb - lefta+ 1];
 		//구현코드
+		int i = lefta;
+		int j = leftb;
+		int k = 0;
+		
+		while (i <= righta && j <= rightb) {
+	        if (a[i].compareTo(a[j]) <= 0) {
+	            temp[k++] = a[i++];
+	        } else {
+	            temp[k++] = a[j++];
+	        }
+	    }			
+		
+		while (i <= righta) {
+			temp[k++] = a[i++];
+		}
+		
+		while (j <= rightb) {
+			temp[k++] = a[j++];
+		}
+		
+		System.arraycopy(temp, 0, a, lefta, rightb - lefta+ 1);
+		
 	}
 
 	// --- 퀵 정렬(비재귀 버전)---//
 	static void MergeSort(Term[] a, int left, int right) {
-		int mid = (left+right)/2;
-		if (left == right) return;
+		if (left >= right) return;            
+	    int mid = left + (right - left) / 2;  
 		MergeSort(a, left, mid);
 		MergeSort(a, mid+1, right);
 		merge(a, left, mid, mid+1, right);
@@ -57,19 +47,51 @@ public class train_실습과제6_3_Merge정렬다항식 {
 		//str 변수는 다항식 이름으로 스트링이다
 		//count가 -1이면 다항식 x의 length로 계산하고 -1이면 count가 다항식 항의 숫자이다 
 		//정렬후 다항식 x = 2.5x**7  + 3.8x**5  + 3.1x**4  + 1.5x**3  + 3.3x**2  + 4.0x**1  + 2.2x**0 
-		int n = 0;
-		if (count < 0)
-			n = x.length;
-		else
-			n = count;
+		System.out.print(str);
+		
+		int length = (count == -1) ? x.length : count;
 		//구현코드
+		for (int i = 0; i < length; i++) {
+			if ( i > 0 && x[i].coef > 0) {
+				System.out.print(" + ");
+			} else if (x[i].coef < 0) {
+				System.out.print(" ");
+			}
+			System.out.print(x[i].toString());
+		}
+		System.out.println();
+		
 	}
 	static int AddPolynomial(Term[]x,Term[]y,Term[]z) {
 		//z = x + y, 다항식 덧셈 결과를 z로 주고 z의 항의 수 terms을 리턴한다 
-		int p=0,q=0,r=0;
-		int terms = 0;
+		int p=0, q=0, r=0;
 		//구현코드
-		return terms;
+		while (p < x.length && q < y.length) {
+			if (x[p].exp > y[q].exp) {
+				z[r++] = new Term(x[p].coef, x[p].exp);
+				p++;
+			} else if (x[p].exp < y[q].exp) {
+				z[r++] = new Term(y[q].coef, y[q].exp);
+				q++;
+			} else {
+				double coefSum = x[p].coef + y[q].coef;
+				if (coefSum != 0) {
+					z[r++] = new Term(coefSum, x[p].exp);
+				}
+				p++;
+				q++;
+			}
+		}
+		
+		while (p <= x.length) {
+			z[r++] = new Term(x[p].coef, x[p].exp);
+		}
+		
+		while (q <= y.length) {
+			z[r++] = new Term(y[q].coef, y[q].exp);
+		}
+		
+		return r;
 		
 	}
 	static int addTerm(Term[]z, Term term, int terms) {
@@ -95,6 +117,7 @@ public class train_실습과제6_3_Merge정렬다항식 {
 		return result;
 	}
 	public static void main(String[] args) {
+		
 		Term[] f = {
 		         new Term(1.5, 3),
 		         new Term(2.5, 7),
@@ -104,6 +127,7 @@ public class train_실습과제6_3_Merge정렬다항식 {
 		         new Term(3.1, 4),
 		         new Term(3.8, 5),
 		     };
+		
 		Term[] g = {
 		         new Term(1.5, 1),
 		         new Term(2.5, 2),
@@ -113,10 +137,10 @@ public class train_실습과제6_3_Merge정렬다항식 {
 		         new Term(3.1, 5),
 		         new Term(3.8, 6),
 		     };
+		
 		int nx = f.length;
 
-
-		ShowPolynomial("다항식 x = ", f, -1);
+		ShowPolynomial("다항식 x = ", f, nx);
 		ShowPolynomial("다항식 y = ", g, -1);
 		MergeSort(f, 0, f.length - 1); // 배열 f를 퀵정렬
 		MergeSort(g, 0, g.length - 1); // 배열 g를 퀵정렬
@@ -127,7 +151,7 @@ public class train_실습과제6_3_Merge정렬다항식 {
 		
 		for (int i =0; i < h.length; i++)
 			h[i] = new Term();
-	
+	/*
 		int hTerms = AddPolynomial(f,g,h);//다항식 덧셈 z = x + y
 		ShowPolynomial("덧셈후 다항식 z = ", h, hTerms);
 
@@ -137,5 +161,6 @@ public class train_실습과제6_3_Merge정렬다항식 {
 		ShowPolynomial("곱셈후 다항식 z = ", h, hTerms);
 		double result = EvaluatePolynomial(h, hTerms, 1);//다항식 값 계산 함수 z(10) 값 계산한다 
 		System.out.println(" result = " + result );
+		*/
 	}
 }
