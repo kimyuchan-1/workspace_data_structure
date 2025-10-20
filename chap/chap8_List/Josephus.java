@@ -30,12 +30,13 @@ public class Josephus {
 		
 		for (int i = 0 ; i < n; i++) {
 			int id = rd.nextInt(1000)+1;
+			//System.out.println(id);
 			sll.insertSorted(id);
 			}
 		
 		sll.showList();
 		
-		//sll.solveJosephus(n, k);
+		System.out.println(sll.solveJosephus(k));
 
 	}
 

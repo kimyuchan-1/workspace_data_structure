@@ -8,7 +8,7 @@ public class train_실습과제6_3_Merge정렬다항식 {
 	// --- 배열 요소 a[idx1]와 a[idx2]의 값을 교환 ---//
 	static void merge(Term[] a, int lefta, int righta, int leftb, int rightb ) {
 		 //body를 지우고 작성 훈련 연습이 도움이 된다 
-		Term temp[] = new Term[rightb - lefta+ 1];
+		Term temp[] = new Term[rightb - lefta + 1];
 		//구현코드
 		int i = lefta;
 		int j = leftb;
@@ -165,6 +165,7 @@ public class train_실습과제6_3_Merge정렬다항식 {
 		
 		return result;
 	}
+	
 	public static void main(String[] args) {
 		
 		Term[] f = {

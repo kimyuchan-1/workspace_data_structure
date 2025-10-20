@@ -11,74 +11,85 @@ public class CurcularLinkedList{
 		
 		Node newNode = new Node(id);
 		
-		// 첫번째 insert
 		if (head == null) {
 			head = newNode;
 			head.next = head;
 			return;
 		} 
 		
-		Node tail = head;
-		while (tail != head) {
-			tail = tail.next;
-		}
-		
-		Node prev = tail;
+		Node prev = null;
 		Node curr = head; 
 		
-		while (curr != tail) {
-			// id 값 비교
-			if (newNode.id < curr.id) {
-				// 제일 앞에 삽입
-				if (curr == head) {
-					newNode.next = curr;
-					head = newNode;
-					tail.next = head;
-					return;
-				// 중간 삽입
-				} else {
-					newNode.next = curr;
-					prev.next = newNode;
-					return;
-				}
-			// 다음 노드로 넘어감
-			} else {
-				prev = curr;
-				curr = curr.next;
-			}
-			
-			if (prev != head) {
-				prev.next = newNode;
-				tail = newNode;
-				newNode.next = head;
-				return;
-			}
-		}		
+		while (curr.next != head && curr.id < id) {
+			prev = curr;
+			curr = curr.next;
+		}
 		
+		if (curr == head && id < curr.id) {
+			Node tail = head;
+			while (tail.next != head) {
+				tail = tail.next;
+			}
+			tail.next = newNode;
+			newNode.next = head;
+			head = newNode;
+		} else if (curr.next == head && curr.id < id) {
+			curr.next = newNode;
+			newNode.next = head;
+		} else {
+			newNode.next = curr;
+			if (prev != null) {
+				prev.next = newNode;
+			}
+		}
 	}
 	
 	public void showList() {
-		Node temp = head;
-		while (temp != null) {
-			System.out.print(temp);
-			if (temp.next != null) {
-				System.out.print(", ");
-			}
-			temp = temp.next;
+		if (head == null) {
+			System.out.println("Empty");
+			return;
 		}
+		
+		Node temp = head;
+		
+		
+		while (true) {
+	        System.out.print(temp);
+	        if (temp.next == head) {
+	        		break;
+	        }
+	        System.out.print(", ");
+	        temp = temp.next;
+	    }
+		System.out.println();
 	}
 	
 	public void delete() {
 		
 	}
 	
-	public void solveJosephus(int size, int n) {
-		int cursor = 0;
-		Node temp = head;
-		
-		while (temp.next != null) {
-			
+	public int solveJosephus(int k) {
+		if (head == null || k <= 0) {
+			throw new IllegalArgumentException();
 		}
+		
+		Node curr = head;
+		Node prev = head;
+		
+		while (prev.next != head) {
+			prev = prev.next;
+		}
+		
+		while (curr != prev) {
+			for (int i = 1; i < k; i++) {
+				prev = curr;
+				curr = curr.next;
+			}
+			prev.next = curr;
+			curr = curr.next;
+		}
+		head = curr;
+		return curr.id;
 		
 	}
 	
