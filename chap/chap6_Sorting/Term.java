@@ -16,7 +16,8 @@ class Term implements Comparable<Term>{
     
 	@Override
 	public String toString() {
-		return coef + "x**" + exp;
+		double doubleCoef = Math.round(coef*10000);
+		return doubleCoef/10000  + "x**" + exp;
 	}
 
 	@Override

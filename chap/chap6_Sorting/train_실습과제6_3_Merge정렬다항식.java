@@ -83,12 +83,14 @@ public class train_실습과제6_3_Merge정렬다항식 {
 			}
 		}
 		
-		while (p <= x.length) {
+		while (p < x.length) {
 			z[r++] = new Term(x[p].coef, x[p].exp);
+			p++;
 		}
 		
-		while (q <= y.length) {
+		while (q < y.length) {
 			z[r++] = new Term(y[q].coef, y[q].exp);
+			q++;
 		}
 		
 		return r;
@@ -98,22 +100,69 @@ public class train_실습과제6_3_Merge정렬다항식 {
 		//다항식 z에 새로운 항 term을 추가한다. 지수가 같은 항이 있으면 계수만 합한다
 		//추가된 항의 수를 count하여 terms으로 리턴한다.
 		//구현코드
+		for (int i = 0; i < terms; i++) {
+	        if (z[i].exp == term.exp) {
+	        	
+	            double newCoef = z[i].coef + term.coef;
+	            
+	            if (newCoef == 0) {
+	                for (int j = i + 1; j < terms; j++) {
+	                	z[j - 1] = z[j];
+	                }
+	                z[--terms] = null;
+	                
+	            } else {
+	                z[i] = new Term(newCoef, z[i].exp);
+	            }
+	            return terms;
+	        }
+	    }
+		
+		z[terms] = term;
+		
 		return ++terms;
 			
 	}
 	static int MultiplyPolynomial(Term[]x,Term[]y,Term[]z) {
 		//z = x * y, 다항식 z의 항의 수는 terms으로 리턴한다 
 		//terms = addTerm(z, term, terms);사용하여 곱셈항을 추가한다.
-		int p=0,q=0,r=0;
+		
+		int p=x.length,q=y.length,r=x.length*y.length;	
+		
+		Term[] temp = new Term[r];
+		
 		int terms = 0;
+		
+		
 		//구현코드
+		for (int i = 0; i < p; i++) {
+			for (int j = 0; j < q; j++) {
+				terms = addTerm(temp, new Term(x[i].coef * y[j].coef, x[i].exp + y[j].exp), terms);
+			}
+		}
+		
+		System.arraycopy(temp, 0, z, 0, terms);
+
 		return terms;
 	}
 	static double EvaluatePolynomial(Term[]z, int zTerms, int value) {
 		//zTerms는 다항식 z의 항의 수, value는 f(x)를 계산하기 위한 x 값
 		//다항식 계산 결과를 double로 리턴한다 
 		double result = 0.0;
+		
 		//구현 코드
+		for (int i = 0; i < zTerms; i++) {
+			if (z[i].exp == 0) {
+				result += z[i].coef;
+			} else {
+				int zExp = 1;
+				for (int j = 0; j < z[i].exp; j++) {
+					zExp *= value;
+				}
+				result += (z[i].coef * zExp);
+			}
+		}
+		
 		return result;
 	}
 	public static void main(String[] args) {
@@ -151,16 +200,15 @@ public class train_실습과제6_3_Merge정렬다항식 {
 		
 		for (int i =0; i < h.length; i++)
 			h[i] = new Term();
-	/*
+	
 		int hTerms = AddPolynomial(f,g,h);//다항식 덧셈 z = x + y
 		ShowPolynomial("덧셈후 다항식 z = ", h, hTerms);
-
 		
 		hTerms = MultiplyPolynomial(f,g,h);//다항식 곱셈 z = x * y
 		MergeSort(h, 0, hTerms); // 배열 x를 퀵정렬
 		ShowPolynomial("곱셈후 다항식 z = ", h, hTerms);
 		double result = EvaluatePolynomial(h, hTerms, 1);//다항식 값 계산 함수 z(10) 값 계산한다 
 		System.out.println(" result = " + result );
-		*/
+		
 	}
 }

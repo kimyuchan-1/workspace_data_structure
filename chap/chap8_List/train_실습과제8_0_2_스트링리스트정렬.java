@@ -2,6 +2,7 @@ package chap8_List;
 //KDT2_1회차 제외 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 public class train_실습과제8_0_2_스트링리스트정렬 {
 	public static String[] removeElement1(String[] arr, String item) {
@@ -52,11 +53,19 @@ public class train_실습과제8_0_2_스트링리스트정렬 {
 		cities = list.toArray(cities);
 		int count = cities.length;
 		for (int i = 0; i < count; i++) {
-			
+			for (int j = i; j < count; j++) {
+				if (cities[i].compareTo(cities[j]) > 0) {
+					swap(Arrays.asList(cities), i, j);
+				} else {
+					continue;
+				}
+			}
 		}
+		
 
 		return list;
 	}
+	
 	static void swap(List<String> list, int i, int j) {
 		String temp = list.get(i);
 		list.set(i, list.get(j));
@@ -66,14 +75,26 @@ public class train_실습과제8_0_2_스트링리스트정렬 {
 	static void sortList2(List<String> list) {
 		//리스트 자체를 정렬
 		int listSize = list.size();
+		
+		for (int i = 0; i< listSize; i++) {
+			for (int j = i; j < listSize; j++) {
+				if (list.get(i).compareTo(list.get(j)) > 0) {
+					swap(list,i,j);
+				} else {
+					continue;
+				}
+			}
+		}
+		
 
 	}
+	
 	static String[] removeDuplicateList(List<String> list) {
 		String cities[] = new String[0];//배열의 크기가 0인 배열
 		cities = list.toArray(cities);//list의 결과로서 배열의 크기를 잡은 후에 동적으로 배열의 크기를 정한다 
 		int count = cities.length;
 		for (int i = 0; i< count; i++) {
-			
+			if (cities[i].compareTo(cities))
 		}
 		// 대체 코드
 		/*
@@ -91,13 +112,27 @@ public class train_실습과제8_0_2_스트링리스트정렬 {
 		//
 		return cities;
 	}
+	
+	private static void showList(String msg, List<String> list) {
+		System.out.println(msg);
+		for (int i = 0; i < list.size(); i++) {
+			System.out.print(list.get(i));
+			if (i == list.size()-1) {
+				System.out.print("");
+			} else {
+				System.out.print(", ");
+			}
+		}
+		System.out.println();
+	}
+	
 	public static void main(String[] args) {
 		ArrayList<String> list = new ArrayList<>();
 		getList(list);
 		showList("입력후", list);
 		//sort - 오름차순으로 정렬, 내림차순으로 정렬, 중복 제거하는 코딩
 
-		//		    Collections.sort(list);
+		//Collections.sort(list);
 
 		//배열의 정렬
 		//List<String> ls =  sortList(list);//배열로 변환하여 정렬

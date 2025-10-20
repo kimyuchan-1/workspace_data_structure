@@ -2,23 +2,25 @@ package chap6_Sorting;
 
 
 import java.util.LinkedList;
-import java.util.List;
+
 
 @SuppressWarnings("serial")
-public class Polynomial extends LinkedList<Term>{
-	Term first;
+public class Polynomial {
+	LinkedList<Term> termList = new LinkedList<>();
 	
-	public Polynomial(Term[] temp) {
+	public Polynomial(Term[] terms) {
+		for (int i = 0; i < terms.length; i++) {
+			termList.add(terms[i]);
+		}
 		
-		for (int i = 0; i < temp.length; i++) {
-			if (i == 0) {
-				first = temp[0];
-			} else {
-				temp[i-1].link = temp[i];
-			}
+		Term tmp = termList.getFirst();
+		int i = 0;
+		
+		while (tmp != null) {
+			
 		}
 	}
-	
+
 	// --- 배열 요소 a[idx1]와 a[idx2]의 값을 교환 ---//
 	public void merge(int lefta, int righta, int leftb, int rightb) {
 		// body를 지우고 작성 훈련 연습이 도움이 된다
@@ -51,7 +53,7 @@ public class Polynomial extends LinkedList<Term>{
 		//str 변수는 다항식 이름으로 스트링이다
 		//count가 -1이면 다항식 x의 length로 계산하고 -1이면 count가 다항식 항의 숫자이다 
 		//정렬후 다항식 x = 2.5x**7  + 3.8x**5  + 3.1x**4  + 1.5x**3  + 3.3x**2  + 4.0x**1  + 2.2x**0 
-		Term tmp = first;
+		Term tmp = termList.getFirst();
 		
 		System.out.println(msg);
 		
