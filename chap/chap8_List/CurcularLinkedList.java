@@ -64,8 +64,13 @@ public class CurcularLinkedList{
 		System.out.println();
 	}
 	
-	public void delete() {
-		
+	public int size() {
+		int n = 0;
+		Node cnt = head;
+		while (cnt.next != head) {
+			n++;
+		}
+		return n;
 	}
 	
 	public int solveJosephus(int k) {
@@ -80,11 +85,12 @@ public class CurcularLinkedList{
 			prev = prev.next;
 		}
 		
-		while (curr != prev) {
+		while (size() > 1) {
 			for (int i = 1; i < k; i++) {
 				prev = curr;
 				curr = curr.next;
 			}
+			
 			prev.next = curr;
 			curr = curr.next;
 		}
