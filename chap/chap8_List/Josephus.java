@@ -26,7 +26,7 @@ public class Josephus {
 		
 		Random rd = new Random(42);
 		
-		CurcularLinkedList sll = new CurcularLinkedList();
+		CircularLinkedList sll = new CircularLinkedList();
 		
 		for (int i = 0 ; i < n; i++) {
 			int id = rd.nextInt(1000)+1;
@@ -36,7 +36,8 @@ public class Josephus {
 		
 		sll.showList();
 		
-		System.out.println(sll.solveJosephus(k));
+		int result = sll.solveJosephus(k);
+		System.out.println(result);
 
 	}
 

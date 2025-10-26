@@ -1,9 +1,9 @@
 package chap8_List;
 
-public class CurcularLinkedList{
+public class CircularLinkedList{
 	Node head;
 	
-	public CurcularLinkedList() {
+	public CircularLinkedList() {
 		head = null;
 	}
 	
@@ -64,11 +64,16 @@ public class CurcularLinkedList{
 		System.out.println();
 	}
 	
-	public int size() {
-		int n = 0;
-		Node cnt = head;
-		while (cnt.next != head) {
+	public int size() {		
+		if (head == null) {
+			return 0;
+		}
+		Node cnt = head.next;
+		int n = 1;
+		
+		while (cnt != head) {
 			n++;
+			cnt = cnt.next;
 		}
 		return n;
 	}
@@ -76,6 +81,10 @@ public class CurcularLinkedList{
 	public int solveJosephus(int k) {
 		if (head == null || k <= 0) {
 			throw new IllegalArgumentException();
+		}
+		
+		if (head.next == head) {
+			return head.id;
 		}
 		
 		Node curr = head;
@@ -90,11 +99,22 @@ public class CurcularLinkedList{
 				prev = curr;
 				curr = curr.next;
 			}
+			System.out.print(curr.id);
+			if (size() > 2) {
+				System.out.print(", ");
+			}
 			
-			prev.next = curr;
-			curr = curr.next;
+			prev.next = curr.next;
+			
+			if (curr == head) {
+				head = curr.next;
+			}
+			curr = prev.next;
 		}
+		System.out.println();
+		
 		head = curr;
+		head.next = head;
 		return curr.id;
 		
 	}
