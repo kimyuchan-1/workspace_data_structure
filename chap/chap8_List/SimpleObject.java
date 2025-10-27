@@ -44,4 +44,13 @@ public class SimpleObject {
 		}
 	}
 	
+	public static final Comparator<SimpleObject> NO_NAME_ORDER = new NoNameOrderComparator();
+
+	private static class NoNameOrderComparator implements Comparator<SimpleObject> {
+		@Override
+		public int compare(SimpleObject d1, SimpleObject d2) {
+			return (d1.no.compareTo(d2.no) != 0) ? d1.no.compareTo(d2.no) : d1.name.compareTo(d2.name);
+		}
+	}
+	
 }

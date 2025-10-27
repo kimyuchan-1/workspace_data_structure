@@ -52,13 +52,13 @@ public class DoubleLinkedListWithObject {
 		lst2.show();
 		System.out.println();
 		
-		lst3 = lst1.merge_NewList(lst2, SimpleObject.NO_ORDER);
+		lst3 = lst1.merge_NewList(lst2, SimpleObject.NO_NAME_ORDER);
 		System.out.println("== 리스트 병합 확인 ==");
 		lst3.show();
 		System.out.println();
 		
 		System.out.println("== 6. 제자리 병합 (lst1, lst2) ==");
-		lst1.merge_InPlace(lst2, SimpleObject.NO_ORDER);
+		lst1.merge_InPlace(lst2, SimpleObject.NO_NAME_ORDER);
 		
 		System.out.println("== 제자리 병합 확인 ==");
 		lst1.show();

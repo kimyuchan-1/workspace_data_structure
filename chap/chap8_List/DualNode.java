@@ -9,7 +9,7 @@ public class DualNode {
 	
 	public DualNode(SimpleObject obj) {
 		data = obj;
-		llink = new DualNode();
-		rlink = new DualNode();
+		llink = null;
+		rlink = null;
 	}
 }
