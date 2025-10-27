@@ -56,7 +56,7 @@ public class CircularLinkedList{
 		while (true) {
 	        System.out.print(temp);
 	        if (temp.next == head) {
-	        		break;
+	        	break;
 	        }
 	        System.out.print(", ");
 	        temp = temp.next;
