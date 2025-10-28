@@ -191,14 +191,20 @@ public class Tree {
 		// 주어진 객체 obj를 갖는 노드를 찾는 문제
 		TreeNode p = root;
 		
+		if (obj == null) {
+			System.out.println("검색할 객체가 없습니다.");
+			return false;
+		}
+		
 		if (p == null) {
+			System.out.println("트리가 비었습니다.");
 			return false;
 		}
 		
 		while (p != null) {
 			if (c.compare(p.data, obj) == 0) {
 				return true;
-			} else if (c.compare(p.data, obj) < 0) {
+			} else if (c.compare(p.data, obj) > 0) {
 				p = p.LeftChild;
 			} else {
 				p = p.RightChild;
@@ -211,9 +217,35 @@ public class Tree {
 	void levelOrder()
 	// root 부터 level별로 출력 : root는 level 1, level 2는 다음줄에 => 같은 level이면 같은 줄에 출력하게 한다
 	{
+		
+		if (root == null) {
+			System.out.println("Empty");
+			return;
+		}
 		Queue<TreeNode> q = new LinkedList<>();
-		TreeNode CurrentNode = root;
-
+		q.offer(root);
+		
+		while(!q.isEmpty()) {
+			int size = q.size();
+			
+			for (int i = 0; i<size; i++) {
+				TreeNode CurrentNode = q.poll();
+				
+				System.out.print(CurrentNode.data);
+				if (i < size-1) {
+					System.out.print(" ");
+				}
+				
+				if (CurrentNode.LeftChild != null) {
+					q.offer(CurrentNode.LeftChild);
+				}
+				if (CurrentNode.RightChild != null) {
+					q.offer(CurrentNode.RightChild);
+				}
+			}
+			System.out.println();
+		}
+		
 	}
 
 	void NonrecInorder()// void Tree::inorder(TreeNode *CurrentNode)와 비교

@@ -67,20 +67,22 @@ public class TreeWithObject {
 				break;
 
 			case Delete: // 임의 정수 삭제
-				so = new SimpleObject();
-				
-				t.delete(so, SimpleObject.NO_ORDER);
-
+				so = new SimpleObject("44","aa");
+				result = t.delete(so, SimpleObject.NO_ORDER);
+				if (!result)
+					System.out.println("삭제 값 = " + so + " 데이터가 없습니다.");
+				else
+					System.out.println("삭제 값 = " + so + " 데이터가 존재하여 삭제했습니다.");
 				break;
 
 			case Search: // 노드 검색
-				so = new SimpleObject();
+				so = new SimpleObject("44","aa");
 				
 				result = t.search(so, SimpleObject.NO_ORDER);
 				if (!result)
-					System.out.println("검색 값 = " + so + "데이터가 없습니다.");
+					System.out.println("검색 값 = " + so + " 데이터가 없습니다.");
 				else
-					System.out.println("검색 값 = " + so + "데이터가 존재합니다.");
+					System.out.println("검색 값 = " + so + " 데이터가 존재합니다.");
 				break;
 
 			case InorderPrint: // 전체 노드를 키값의 오름차순으로 표시
