@@ -156,29 +156,45 @@ public class DoubleLinkedList {
 		 * (2,3,4,5,8,9)가 되도록 구현하는 코드
 		 */
 
-		if (b == null || b.isEmpty()) {
+		if (b.isEmpty()) {
 			return;
 		}
 
-	    if (this.isEmpty()) {
-	        this.first.rlink = b.first.rlink;
-	        this.first.llink = b.first.llink;
-	        this.first.rlink.llink = this.first;
-	        this.first.llink.rlink = this.first;
-
-	        return;
-	    }
-
-	    DualNode aHead = this.first.rlink;
-	    DualNode aTail = this.first.llink;
-	    DualNode bHead = b.first.rlink;
-	    DualNode bTail = b.first.llink;
-
-	    if (aHead == this.first || bHead == b.first) {
-	    		return;
-	    }
-
+	    DualNode aCurr = this.first.rlink;
+	    DualNode aPrev = this.first;
+	    DualNode bCurr = b.first.rlink;
 	    
+	    while (aCurr != this.first && bCurr != b.first) {
+	    	if (cc.compare(aCurr.data, bCurr.data) <= 0) {
+	    		aPrev = aCurr;
+	    		aCurr = aCurr.rlink;
+	    	} else {
+	    		DualNode temp = bCurr.rlink;
+	    		
+	    		bCurr.llink.rlink = bCurr.rlink;
+	    		bCurr.rlink.llink = bCurr.llink;
+	    		
+	    		bCurr.llink = aPrev;
+	    		bCurr.rlink = aCurr;
+	    		aCurr.llink = bCurr;
+	    		aPrev.rlink = bCurr;
+	    		
+	    		aPrev = bCurr;
+	    		bCurr = temp;
+	    	}
+	    }
+	    
+	    if (bCurr != b.first) {
+	    	aPrev.rlink = bCurr;
+	    	bCurr.llink = aPrev;
+	    	
+	    	DualNode last = b.first.llink;
+	    	last.rlink = first;
+	    	first.llink = last;
+	    }
+	    
+	    b.first.rlink = b.first;
+	    b.first.llink = b.first;
 
 	}
 }
