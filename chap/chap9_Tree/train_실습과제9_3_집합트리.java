@@ -6,11 +6,11 @@ package chap9_Tree;
  */
 import java.util.Arrays;
 
-class Sets3 {
+class Sets {
 	private int[] parent;
 	private int n;
 
-	public Sets3(int sz) {
+	public Sets(int sz) {
 		n = sz;
 		parent = new int[sz + 1]; // Don't want to use parent[0]
 		Arrays.fill(parent, -1); // Initialize with -1
@@ -69,7 +69,7 @@ class Sets3 {
 
 public class train_실습과제9_3_집합트리 {
 	public static void main(String[] args) {
-		Sets3 m = new Sets3(20);
+		Sets m = new Sets(20);
 		m.simpleUnion(7, 1);
 		m.simpleUnion(2, 3);
 		m.simpleUnion(4, 5);
